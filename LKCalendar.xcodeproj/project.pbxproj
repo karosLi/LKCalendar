@@ -1,0 +1,321 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7CB40DE21F0F8460006D766C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40DE11F0F8460006D766C /* main.m */; };
+		7CB40DE51F0F8460006D766C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40DE41F0F8460006D766C /* AppDelegate.m */; };
+		7CB40DE81F0F8460006D766C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40DE71F0F8460006D766C /* ViewController.m */; };
+		7CB40DEB1F0F8460006D766C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB40DE91F0F8460006D766C /* Main.storyboard */; };
+		7CB40DED1F0F8460006D766C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CB40DEC1F0F8460006D766C /* Assets.xcassets */; };
+		7CB40DF01F0F8460006D766C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CB40DEE1F0F8460006D766C /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7CB40DDD1F0F8460006D766C /* LKCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LKCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CB40DE11F0F8460006D766C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7CB40DE31F0F8460006D766C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7CB40DE41F0F8460006D766C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7CB40DE61F0F8460006D766C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		7CB40DE71F0F8460006D766C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7CB40DEA1F0F8460006D766C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7CB40DEC1F0F8460006D766C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7CB40DEF1F0F8460006D766C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7CB40DF11F0F8460006D766C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7CB40DDA1F0F8460006D766C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7CB40DD41F0F8460006D766C = {
+			isa = PBXGroup;
+			children = (
+				7CB40DDF1F0F8460006D766C /* LKCalendar */,
+				7CB40DDE1F0F8460006D766C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7CB40DDE1F0F8460006D766C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7CB40DDD1F0F8460006D766C /* LKCalendar.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7CB40DDF1F0F8460006D766C /* LKCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				7CB40DE31F0F8460006D766C /* AppDelegate.h */,
+				7CB40DE41F0F8460006D766C /* AppDelegate.m */,
+				7CB40DE61F0F8460006D766C /* ViewController.h */,
+				7CB40DE71F0F8460006D766C /* ViewController.m */,
+				7CB40DE91F0F8460006D766C /* Main.storyboard */,
+				7CB40DEC1F0F8460006D766C /* Assets.xcassets */,
+				7CB40DEE1F0F8460006D766C /* LaunchScreen.storyboard */,
+				7CB40DF11F0F8460006D766C /* Info.plist */,
+				7CB40DE01F0F8460006D766C /* Supporting Files */,
+			);
+			path = LKCalendar;
+			sourceTree = "<group>";
+		};
+		7CB40DE01F0F8460006D766C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7CB40DE11F0F8460006D766C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7CB40DDC1F0F8460006D766C /* LKCalendar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CB40DF41F0F8460006D766C /* Build configuration list for PBXNativeTarget "LKCalendar" */;
+			buildPhases = (
+				7CB40DD91F0F8460006D766C /* Sources */,
+				7CB40DDA1F0F8460006D766C /* Frameworks */,
+				7CB40DDB1F0F8460006D766C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LKCalendar;
+			productName = LKCalendar;
+			productReference = 7CB40DDD1F0F8460006D766C /* LKCalendar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7CB40DD51F0F8460006D766C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = karos;
+				TargetAttributes = {
+					7CB40DDC1F0F8460006D766C = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 7M2A8Q929Y;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7CB40DD81F0F8460006D766C /* Build configuration list for PBXProject "LKCalendar" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7CB40DD41F0F8460006D766C;
+			productRefGroup = 7CB40DDE1F0F8460006D766C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7CB40DDC1F0F8460006D766C /* LKCalendar */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7CB40DDB1F0F8460006D766C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB40DF01F0F8460006D766C /* LaunchScreen.storyboard in Resources */,
+				7CB40DED1F0F8460006D766C /* Assets.xcassets in Resources */,
+				7CB40DEB1F0F8460006D766C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7CB40DD91F0F8460006D766C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CB40DE81F0F8460006D766C /* ViewController.m in Sources */,
+				7CB40DE51F0F8460006D766C /* AppDelegate.m in Sources */,
+				7CB40DE21F0F8460006D766C /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7CB40DE91F0F8460006D766C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7CB40DEA1F0F8460006D766C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7CB40DEE1F0F8460006D766C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7CB40DEF1F0F8460006D766C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7CB40DF21F0F8460006D766C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7CB40DF31F0F8460006D766C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7CB40DF51F0F8460006D766C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7M2A8Q929Y;
+				INFOPLIST_FILE = LKCalendar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kaors.LKCalendar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7CB40DF61F0F8460006D766C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 7M2A8Q929Y;
+				INFOPLIST_FILE = LKCalendar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kaors.LKCalendar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7CB40DD81F0F8460006D766C /* Build configuration list for PBXProject "LKCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB40DF21F0F8460006D766C /* Debug */,
+				7CB40DF31F0F8460006D766C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CB40DF41F0F8460006D766C /* Build configuration list for PBXNativeTarget "LKCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CB40DF51F0F8460006D766C /* Debug */,
+				7CB40DF61F0F8460006D766C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7CB40DD51F0F8460006D766C /* Project object */;
+}
