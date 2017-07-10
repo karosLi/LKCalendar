@@ -10,10 +10,14 @@
 #import "LKCalendarCollectionViewLayout.h"
 #import "LKCalendarCell.h"
 #import "LKCalendarSectionView.h"
+#import "LKCalendarMenuView.h"
 #import "NSDate+LKCalendar.h"
+
+#define kLKCalendarMenuViewHeight 62
 
 @interface LKCalendarView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
+@property (nonatomic, strong) LKCalendarMenuView *menuView;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) LKCalendarCollectionViewLayout *layout;
 
@@ -53,6 +57,7 @@
 }
 
 - (void)setupView {
+    [self addSubview:self.menuView];
     [self addSubview:self.collectionView];
 }
 
@@ -80,7 +85,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.collectionView.frame = self.bounds;
+    self.menuView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), kLKCalendarMenuViewHeight);
+    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - kLKCalendarMenuViewHeight);
     if (!self.wasScrolledToToday) {
         self.wasScrolledToToday = YES;
         [self scrollToToday:NO];
@@ -187,7 +193,7 @@
             CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+                [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
             });
         }
     }
@@ -258,12 +264,20 @@
         CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
         });
     }
 }
 
 #pragma mark - getter and setter
+- (LKCalendarMenuView *)menuView {
+    if (!_menuView) {
+        _menuView = [[LKCalendarMenuView alloc] init];
+    }
+    
+    return _menuView;
+}
+
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];

@@ -23,6 +23,8 @@
 		7CB40E1D1F1377C4006D766C /* LKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E1C1F1377C4006D766C /* LKCalendarView.m */; };
 		7CB40E211F137FCB006D766C /* Demo2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E201F137FCB006D766C /* Demo2ViewController.m */; };
 		7CB40E241F13837B006D766C /* Demo3ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E231F13837B006D766C /* Demo3ViewController.m */; };
+		7CB40E271F139E72006D766C /* LKCalendarMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E261F139E72006D766C /* LKCalendarMenuView.m */; };
+		7CB40E2A1F139F7A006D766C /* LKCalendarMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E291F139F7A006D766C /* LKCalendarMenuCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,10 @@
 		7CB40E201F137FCB006D766C /* Demo2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo2ViewController.m; sourceTree = "<group>"; };
 		7CB40E221F13837B006D766C /* Demo3ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo3ViewController.h; sourceTree = "<group>"; };
 		7CB40E231F13837B006D766C /* Demo3ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo3ViewController.m; sourceTree = "<group>"; };
+		7CB40E251F139E72006D766C /* LKCalendarMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKCalendarMenuView.h; sourceTree = "<group>"; };
+		7CB40E261F139E72006D766C /* LKCalendarMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKCalendarMenuView.m; sourceTree = "<group>"; };
+		7CB40E281F139F7A006D766C /* LKCalendarMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKCalendarMenuCell.h; sourceTree = "<group>"; };
+		7CB40E291F139F7A006D766C /* LKCalendarMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKCalendarMenuCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,10 @@
 				7CB40E101F0FBE50006D766C /* LKCalendarConfig.m */,
 				7CB40E001F0FAFFF006D766C /* LKCalendarCollectionViewLayout.h */,
 				7CB40E011F0FAFFF006D766C /* LKCalendarCollectionViewLayout.m */,
+				7CB40E251F139E72006D766C /* LKCalendarMenuView.h */,
+				7CB40E261F139E72006D766C /* LKCalendarMenuView.m */,
+				7CB40E281F139F7A006D766C /* LKCalendarMenuCell.h */,
+				7CB40E291F139F7A006D766C /* LKCalendarMenuCell.m */,
 				7CB40E151F108D2D006D766C /* LKCalendarSectionView.h */,
 				7CB40E161F108D2D006D766C /* LKCalendarSectionView.m */,
 				7CB40E091F0FBCCF006D766C /* LKCalendarCell.h */,
@@ -225,6 +235,7 @@
 				7CB40DE51F0F8460006D766C /* AppDelegate.m in Sources */,
 				7CB40DE21F0F8460006D766C /* main.m in Sources */,
 				7CB40E0B1F0FBCCF006D766C /* LKCalendarCell.m in Sources */,
+				7CB40E2A1F139F7A006D766C /* LKCalendarMenuCell.m in Sources */,
 				7CB40E241F13837B006D766C /* Demo3ViewController.m in Sources */,
 				7CB40E211F137FCB006D766C /* Demo2ViewController.m in Sources */,
 				7CB40E141F0FC132006D766C /* Demo1ViewController.m in Sources */,
@@ -232,6 +243,7 @@
 				7CB40E1D1F1377C4006D766C /* LKCalendarView.m in Sources */,
 				7CB40E171F108D2D006D766C /* LKCalendarSectionView.m in Sources */,
 				7CB40E111F0FBE50006D766C /* LKCalendarConfig.m in Sources */,
+				7CB40E271F139E72006D766C /* LKCalendarMenuView.m in Sources */,
 				7CB40E051F0FB35F006D766C /* NSDate+LKCalendar.m in Sources */,
 				7CB40E081F0FB3D8006D766C /* NSCalendar+LKCalendar.m in Sources */,
 			);

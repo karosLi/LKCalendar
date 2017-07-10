@@ -33,7 +33,7 @@ static NSString *kCellKind = @"kCellKind";
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:numItems - 1 inSection:indexPath.section];
     UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
     
-    totalHeight = CGRectGetMaxY(attributes.frame) + CGRectGetHeight(attributes.frame);
+    totalHeight = CGRectGetMaxY(attributes.frame);
     totalHeight -= supplementaryAttributes.frame.origin.y;
     
     return totalHeight;
