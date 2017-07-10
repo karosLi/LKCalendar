@@ -20,9 +20,6 @@
 @property (nonatomic, strong) NSDate *currentMonth;
 @property (nonatomic, strong) NSMutableArray<NSDate *> *dates;
 
-@property (nonatomic, assign) NSInteger addedPassMonthQuanlity;
-@property (nonatomic, assign) CGPoint contentOffset;
-
 @end
 
 @implementation Demo1ViewController
@@ -30,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+    self.isPagingEnabled = YES;
     
     [self.view addSubview:self.collectionView];
     
@@ -91,15 +89,12 @@
     return section;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
-}
-
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self.isPagingEnabled) {
             if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
-                [self appendPassMonths];
+                [self appendPastMonths];
             }
             
             if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
@@ -111,63 +106,48 @@
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     if (self.isPagingEnabled) {
-    
+        // 升序
         NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems]  sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
             return obj1.section > obj2.section;
         }];
 
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:CGPointMake(CGRectGetWidth(self.collectionView.frame) / 2.0, self.contentOffset.y)];
-    
-    
         NSInteger visibleSection;
         NSInteger nextSection;
-        if (velocity.y > 0.0) {
+        if (velocity.y > 0.0) { // 加速度情况下 下一页
             NSArray *filterItems = [sortedIndexPathsForVisibleItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSIndexPath  * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
                 return [evaluatedObject item] == 0;
             }]];
 
             visibleSection = [[filterItems firstObject] section];
             nextSection = visibleSection + 1;
-        } else if (velocity.y < 0.0) {
+        } else if (velocity.y < 0.0) { // 加速度情况下 上一页
+            // 由于一个月最小是28天，进行过滤只取出27号以后的 indexPath.
             NSArray *filterItems = [sortedIndexPathsForVisibleItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSIndexPath  * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
                 return [evaluatedObject item] > 26;
             }]];
             
             visibleSection = [[filterItems lastObject] section];
             nextSection = visibleSection - 1;
-            
-            NSLog(@"%zd %zd %f %@\n%@", indexPath.section, nextSection, self.collectionView.contentOffset.y,  sortedIndexPathsForVisibleItems, filterItems);
-        } else {
+        } else { // 非加速度情况下，取中间 item 来决定去哪一页
             visibleSection = [sortedIndexPathsForVisibleItems[sortedIndexPathsForVisibleItems.count / 2] section];
             nextSection = visibleSection;
         }
     
+        // 安全判断
         nextSection = MAX(MIN([self.collectionView numberOfSections] - 1, nextSection), 0);
     
+        // 获取 section 的frame
         NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nextSection];
         CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
     
+        // 设置最终 collectionView 的滚动位置
         CGPoint topOfHeader = CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top);
-    
         *targetContentOffset = topOfHeader;
-        
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
-    
     }
 }
 
-#pragma mark - private methods
-- (void)scrollToToday:(BOOL)animated {
-    [self scrollToDate:self.currentMonth animated:animated];
-}
-
-- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated {
-    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:[self.dates indexOfObject:date]];
-
-    CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
-    [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
-}
-
+#pragma mark - load more months
 - (void)appendFutureMonths {
     NSDate *lastMonth = self.dates.lastObject;
     NSDate *nextMonth = lastMonth;
@@ -178,18 +158,41 @@
     [self.collectionView reloadData];
 }
 
-- (void)appendPassMonths {
-    NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems]  sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
-        return obj1.section > obj2.section;
-    }];
+- (void)appendPastMonths {
+//    NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems]  sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
+//        return obj1.section > obj2.section;
+//    }];
+//    
+//    NSArray *filterItems = [sortedIndexPathsForVisibleItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSIndexPath  * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+//        return [evaluatedObject item] == 0;
+//    }]];
+//
+//    NSIndexPath *originSectionIndexPath = filterItems.firstObject;
+//    NSDate *originSectionDate = [self.dates objectAtIndex:originSectionIndexPath.section];
+//    CGRect originSectionFrame = [self.layout sectionFrameAtIndexPath:originSectionIndexPath];
+//    
+//    NSDate *firstMonth = self.dates.firstObject;
+//    NSDate *previousMonth = firstMonth;
+//    for (NSInteger i = 0; i < 1 * 3; i++) {
+//        previousMonth = [previousMonth lk_previousMonth];
+//        [self.dates insertObject:previousMonth atIndex:0];
+//    }
+//    
+//    [self.collectionView reloadData];
+//    [self.collectionView layoutIfNeeded];
+//    
+//    NSInteger nowSectionIndex = [self.dates indexOfObject:originSectionDate];
+//    NSIndexPath *nowSectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nowSectionIndex];
+//    CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
+//    
+//    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
     
-    NSArray *filterItems = [sortedIndexPathsForVisibleItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSIndexPath  * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return [evaluatedObject item] == 0;
-    }]];
-
-    NSIndexPath *originSectionIndexPath = filterItems.firstObject;
-    NSDate *originSectionDate = [self.dates objectAtIndex:originSectionIndexPath.section];
-    CGRect originSectionFrame = [self.layout sectionFrameAtIndexPath:originSectionIndexPath];
+    NSArray *visibleCells = [self.collectionView visibleCells];
+    if (![visibleCells count])
+        return;
+    
+    NSIndexPath *originIndexPath = [self.collectionView indexPathForCell:((UICollectionViewCell *)visibleCells[0]) ];
+    NSInteger originSection = originIndexPath.section;
     
     NSDate *firstMonth = self.dates.firstObject;
     NSDate *previousMonth = firstMonth;
@@ -197,20 +200,27 @@
         previousMonth = [previousMonth lk_previousMonth];
         [self.dates insertObject:previousMonth atIndex:0];
     }
-    
+
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
-    
-    NSInteger nowSectionIndex = [self.dates indexOfObject:originSectionDate];
+
+    NSInteger nowSectionIndex = originSection + 3;
     NSIndexPath *nowSectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nowSectionIndex];
     CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
     
-    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
-    
-    NSLog(@"%zd %zd %f", originSectionIndexPath.section, nowSectionIndex, self.collectionView.contentOffset.y);
-    self.contentOffset = self.collectionView.contentOffset;
-    self.addedPassMonthQuanlity = 3;
+    [self.collectionView setContentOffset:CGPointMake(0, nowSectionFrame.origin.y)];
+}
 
+#pragma mark - private methods
+- (void)scrollToToday:(BOOL)animated {
+    [self scrollToDate:self.currentMonth animated:animated];
+}
+
+- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated {
+    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:[self.dates indexOfObject:date]];
+    
+    CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
+    [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
 }
 
 #pragma mark - getter and setter
