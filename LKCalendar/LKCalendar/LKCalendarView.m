@@ -181,20 +181,22 @@
         return;
     
     // 记录当前正在显示的月份
-    NSIndexPath *originIndexPath = [self.collectionView indexPathForCell:((UICollectionViewCell *)visibleCells[0]) ];
-    NSInteger originSection = originIndexPath.section;
+    NSIndexPath *originSectionIndexPath = [self.collectionView indexPathForCell:((UICollectionViewCell *)visibleCells[0]) ];
+    NSInteger originSection = originSectionIndexPath.section;
+    NSDate *originSectionDate = [self.dates objectAtIndex:originSection];
+    CGRect originSectionFrame = [self.layout sectionFrameAtIndexPath:originSectionIndexPath];
     
     // 向前添加月份
     [self addPreviousMonthsOfQuanlity:6];
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
     
-    // 使用记录月份加上添加的月份来计算记录月份新的位置
-    NSInteger nowSectionIndex = originSection + 6;
+    // 重新计算当前长在显示月份新的位置
+    NSInteger nowSectionIndex = [self.dates indexOfObject:originSectionDate];
     NSIndexPath *nowSectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nowSectionIndex];
     CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
     
-    [self.collectionView setContentOffset:CGPointMake(0, nowSectionFrame.origin.y)];
+    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
 }
 
 - (void)addNextMonthsOfQuanlity:(NSInteger)quanlity {
