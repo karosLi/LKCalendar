@@ -31,7 +31,7 @@ static NSString *kCellKind = @"kCellKind";
     self.minimumInteritemSpacing = 0.0;
     self.itemHeight = 40.0;
     self.headerHeight = 22.0;
-    self.footerHeight = 20.0;
+    self.footerHeight = 15.0;
     
     return self;
 }
@@ -78,7 +78,7 @@ static NSString *kCellKind = @"kCellKind";
         indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
         UICollectionViewLayoutAttributes *supplementaryAttributes = [self sectionLayoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath topY:self.totalHeight];
         [supplementaryInfo setObject:supplementaryAttributes forKey:indexPath];
-        self.totalHeight = CGRectGetMaxY(supplementaryAttributes.frame);
+        self.totalHeight = CGRectGetMaxY(supplementaryAttributes.frame) + 10;
         
         NSInteger numItems = [self.collectionView numberOfItemsInSection:section];
         for(NSInteger item = 0; item < numItems; item++){
