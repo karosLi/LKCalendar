@@ -9,10 +9,12 @@
 #import "HomeTestViewController.h"
 #import "Demo1ViewController.h"
 #import "Demo2ViewController.h"
+#import "Demo3ViewController.h"
 
 typedef  NS_ENUM(NSInteger, TestType) {
-    TestTypeCalendar,
-    TestTypePaging,
+    TestTypeRangeCalendar,
+    TestTypePageCalendar,
+    TestTypePageCalendarDynamic,
 };
 
 static NSArray *testTypes;
@@ -27,10 +29,12 @@ static NSArray *testTypes;
 
 + (void)initialize {
     if (self == [HomeTestViewController self]) {
-        testTypes = @[@{@"type" : @(TestTypeCalendar),
+        testTypes = @[@{@"type" : @(TestTypeRangeCalendar),
                         @"desc" : @"显示日历"},
-                      @{@"type" : @(TestTypePaging),
-                        @"desc" : @"日历分页"}
+                      @{@"type" : @(TestTypePageCalendar),
+                        @"desc" : @"日历分页"},
+                      @{@"type" : @(TestTypePageCalendarDynamic),
+                        @"desc" : @"日历分页并改变自身大小"}
                       ];
     }
 }
@@ -72,10 +76,12 @@ static NSArray *testTypes;
     
     TestType type = [testTypes[indexPath.row][@"type"] integerValue];
     
-    if (type == TestTypeCalendar) {
+    if (type == TestTypeRangeCalendar) {
         [self.navigationController pushViewController:[Demo1ViewController new] animated:YES];
-    } else {
+    } else if (type == TestTypePageCalendar) {
         [self.navigationController pushViewController:[Demo2ViewController new] animated:YES];
+    } else if (type == TestTypePageCalendarDynamic) {
+        [self.navigationController pushViewController:[Demo3ViewController new] animated:YES];
     }
 }
 

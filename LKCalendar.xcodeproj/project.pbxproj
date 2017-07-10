@@ -22,6 +22,7 @@
 		7CB40E171F108D2D006D766C /* LKCalendarSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E161F108D2D006D766C /* LKCalendarSectionView.m */; };
 		7CB40E1D1F1377C4006D766C /* LKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E1C1F1377C4006D766C /* LKCalendarView.m */; };
 		7CB40E211F137FCB006D766C /* Demo2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E201F137FCB006D766C /* Demo2ViewController.m */; };
+		7CB40E241F13837B006D766C /* Demo3ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E231F13837B006D766C /* Demo3ViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,8 @@
 		7CB40E1E1F137F8F006D766C /* LKCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LKCalendar.h; sourceTree = "<group>"; };
 		7CB40E1F1F137FCB006D766C /* Demo2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo2ViewController.h; sourceTree = "<group>"; };
 		7CB40E201F137FCB006D766C /* Demo2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo2ViewController.m; sourceTree = "<group>"; };
+		7CB40E221F13837B006D766C /* Demo3ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo3ViewController.h; sourceTree = "<group>"; };
+		7CB40E231F13837B006D766C /* Demo3ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo3ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +143,8 @@
 				7CB40E131F0FC132006D766C /* Demo1ViewController.m */,
 				7CB40E1F1F137FCB006D766C /* Demo2ViewController.h */,
 				7CB40E201F137FCB006D766C /* Demo2ViewController.m */,
+				7CB40E221F13837B006D766C /* Demo3ViewController.h */,
+				7CB40E231F13837B006D766C /* Demo3ViewController.m */,
 			);
 			path = LKCalendarDemo;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 				7CB40DE51F0F8460006D766C /* AppDelegate.m in Sources */,
 				7CB40DE21F0F8460006D766C /* main.m in Sources */,
 				7CB40E0B1F0FBCCF006D766C /* LKCalendarCell.m in Sources */,
+				7CB40E241F13837B006D766C /* Demo3ViewController.m in Sources */,
 				7CB40E211F137FCB006D766C /* Demo2ViewController.m in Sources */,
 				7CB40E141F0FC132006D766C /* Demo1ViewController.m in Sources */,
 				7CB40DFF1F0F89AA006D766C /* HomeTestViewController.m in Sources */,

@@ -1,21 +1,21 @@
 //
-//  Demo1ViewController.m
+//  Demo3ViewController.m
 //  LKCalendar
 //
-//  Created by karos li on 2017/7/7.
+//  Created by karos li on 2017/7/10.
 //  Copyright © 2017年 karos. All rights reserved.
 //
 
-#import "Demo1ViewController.h"
+#import "Demo3ViewController.h"
 #import "LKCalendar.h"
 
-@interface Demo1ViewController ()
+@interface Demo3ViewController ()
 
 @property (nonatomic, strong) LKCalendarView *calendarView;
 
 @end
 
-@implementation Demo1ViewController
+@implementation Demo3ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,6 +27,7 @@
 - (LKCalendarView *)calendarView {
     if (!_calendarView) {
         LKCalendarConfig *config = [[LKCalendarConfig alloc] init];
+        config.isPagingEnabled = YES;
         config.totalNumberOfyears = 2;
         
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 400) config:config];
