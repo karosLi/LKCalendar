@@ -10,13 +10,25 @@
 
 @interface LKCalendarCollectionViewLayout : UICollectionViewLayout
 
-@property (nonatomic, strong) NSDate *currentMonth;
 @property (nonatomic, strong) NSMutableArray<NSDate *> *dates;
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 @property (nonatomic, assign) CGFloat minimumInteritemSpacing;
 @property (nonatomic, assign) CGSize headerReferenceSize;
 
+/**
+ 返回整个月份的高度
+
+ @param indexPath indexPath
+ @return CGFloat
+ */
 - (CGFloat)wholeSectionHeightAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ 返回月份的 frame
+
+ @param indexPath indexPath
+ @return CGRect
+ */
 - (CGRect)sectionFrameAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

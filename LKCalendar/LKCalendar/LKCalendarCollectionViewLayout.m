@@ -58,20 +58,8 @@ static NSString *kCellKind = @"kCellKind";
     self.totalHeight = 0;
     [self.layoutInformation removeAllObjects];
     
-    NSMutableDictionary *supplementaryInfo = self.layoutInformation[UICollectionElementKindSectionHeader];
-    NSMutableDictionary *cellInformation = self.layoutInformation[kCellKind];
-    
-    if (!supplementaryInfo) {
-        supplementaryInfo = [NSMutableDictionary dictionary];
-        [self.layoutInformation setObject:supplementaryInfo forKey:UICollectionElementKindSectionHeader];
-    }
-    
-    if (!cellInformation) {
-        cellInformation = [NSMutableDictionary dictionary];
-        [self.layoutInformation setObject:cellInformation forKey:kCellKind];
-    }
-    
-    CGFloat totalHeight = 0;
+    NSMutableDictionary *supplementaryInfo = [NSMutableDictionary dictionary];
+    NSMutableDictionary *cellInformation = [NSMutableDictionary dictionary];
     
     NSIndexPath *indexPath;
     NSInteger numSections = [self.collectionView numberOfSections];
@@ -93,10 +81,11 @@ static NSString *kCellKind = @"kCellKind";
         }
     }
     
-    
+    [self.layoutInformation setObject:supplementaryInfo forKey:UICollectionElementKindSectionHeader];
+    [self.layoutInformation setObject:cellInformation forKey:kCellKind];
 }
 
-- (NSArray*)layoutAttributesForElementsInRect:(CGRect)rect {
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
     NSMutableArray *myAttributes = [NSMutableArray arrayWithCapacity:self.layoutInformation.count];
     for(NSString *key in self.layoutInformation){
         NSDictionary *attributesDict = [self.layoutInformation objectForKey:key];
@@ -108,6 +97,7 @@ static NSString *kCellKind = @"kCellKind";
             }
         }
     }
+    
     return myAttributes;
 }
 
