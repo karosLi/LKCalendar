@@ -30,15 +30,10 @@ static NSString *kCellKind = @"kCellKind";
     UICollectionViewLayoutAttributes *supplementaryAttributes = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:sectionIndexPath];
     
     NSInteger numItems = [self.collectionView numberOfItemsInSection:indexPath.section];
-    for(NSInteger item = 0; item < numItems; item++){
-        NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:item inSection:indexPath.section];
-        UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
-        
-        if (item == numItems - 1) {
-            totalHeight = CGRectGetMaxY(attributes.frame);
-        }
-    }
+    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:numItems - 1 inSection:indexPath.section];
+    UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
     
+    totalHeight = CGRectGetMaxY(attributes.frame) + CGRectGetHeight(attributes.frame);
     totalHeight -= supplementaryAttributes.frame.origin.y;
     
     return totalHeight;

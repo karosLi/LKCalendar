@@ -9,7 +9,7 @@
 #import "Demo3ViewController.h"
 #import "LKCalendar.h"
 
-@interface Demo3ViewController ()
+@interface Demo3ViewController () <LKCalendarViewDelegate>
 
 @property (nonatomic, strong) LKCalendarView *calendarView;
 
@@ -23,14 +23,31 @@
     [self.view addSubview:self.calendarView];
 }
 
+- (void)calendarView:(LKCalendarView *)calendarView scrollToMonth:(NSDate *)month withMonthHeight:(CGFloat)monthHeight {
+    NSLog(@"%f", monthHeight);
+    
+    CGRect rect = self.calendarView.frame;
+    rect.size.height = monthHeight;
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveLinear animations:^{
+        self.calendarView.frame = rect;
+        [self.calendarView layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+- (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day {
+    
+}
+
 #pragma mark - getter and setter
 - (LKCalendarView *)calendarView {
     if (!_calendarView) {
         LKCalendarConfig *config = [[LKCalendarConfig alloc] init];
         config.isPagingEnabled = YES;
-        config.totalNumberOfyears = 2;
         
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 400) config:config];
+        _calendarView.delegate = self;
     }
     
     return _calendarView;

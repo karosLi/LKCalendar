@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSMutableArray<NSDate *> *dates;
 @property (nonatomic, strong) LKCalendarConfig *config;
 
+@property (nonatomic, assign) BOOL wasScrolledToToday;
+
 @end
 
 @implementation LKCalendarView
@@ -77,7 +79,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
     self.collectionView.frame = self.bounds;
+    if (!self.wasScrolledToToday) {
+        self.wasScrolledToToday = YES;
+        [self scrollToToday:NO];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -108,6 +115,15 @@
     section.textLabel.text = [[self dateFormatter] stringFromDate:self.dates[indexPath.section]];
     
     return section;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDay:)]) {
+        NSDate *month = self.dates[indexPath.section];
+        NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
+        [self.delegate calendarView:self didSelectDay:day];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -165,6 +181,13 @@
         CGPoint topOfHeader = CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top);
         *targetContentOffset = topOfHeader;
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+        
+        if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
+            NSDate *scrollToMonthDate = [self.dates objectAtIndex:nextSection];
+            CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
+            
+            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+        }
     }
 }
 
@@ -227,6 +250,12 @@
     
     CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
     [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
+    
+    if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
+        NSDate *scrollToMonthDate = date;
+        CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
+        [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+    }
 }
 
 #pragma mark - getter and setter
@@ -242,7 +271,6 @@
         _collectionView.frame = self.bounds;
         [_collectionView reloadData];
         [_collectionView layoutIfNeeded];
-        [self scrollToToday:NO];
     }
     
     return _collectionView;
