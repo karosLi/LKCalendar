@@ -20,6 +20,9 @@
 @property (nonatomic, strong) NSDate *currentMonth;
 @property (nonatomic, strong) NSMutableArray<NSDate *> *dates;
 
+@property (nonatomic, assign) NSInteger addedPassMonthQuanlity;
+@property (nonatomic, assign) CGPoint contentOffset;
+
 @end
 
 @implementation Demo1ViewController
@@ -88,76 +91,13 @@
     return section;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
-    
-    //    if (indexPath.section <= 1) {
-    //        NSDate *firstMonth = self.dates.firstObject;
-    //        NSDate *previousMonth = firstMonth;
-    //        for (NSInteger i = 0; i < 1 * 3; i++) {
-    //            previousMonth = [previousMonth lk_previousMonth];
-    //            [self.dates insertObject:previousMonth atIndex:0];
-    //        }
-    //
-    //        dispatch_async(dispatch_get_main_queue(), ^{
-    //            [collectionView reloadData];
-    //        });
-    //    }
-    
-    
-    
-//    if (indexPath.section + 2 >= self.dates.count) {
-//        NSDate *lastMonth = self.dates.lastObject;
-//        NSDate *nextMonth = lastMonth;
-//        for (NSInteger i = 0; i < 1 * 3; i++) {
-//            nextMonth = [nextMonth lk_nextMonth];
-//            [self.dates addObject:nextMonth];
-//        }
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [collectionView reloadData];
-//        });
-//    }
-    
-    
-    
-
-    
-}
-
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    if (indexPath.item == [collectionView numberOfItemsInSection:indexPath.section] - 1) {
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            CGFloat wholeSectionHeight = [self.layout wholeSectionHeightAtIndexPath:indexPath];
-//            
-//            CGRect rect = collectionView.frame;
-//            rect.size.height = wholeSectionHeight;
-//            NSLog(@"%f", wholeSectionHeight);
-//            
-//            [UIView animateWithDuration:0.3 animations:^{
-//                collectionView.frame = rect;
-//            }];
-//        });
-//    }
-    
-
-}
-
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
 }
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat y = scrollView.contentOffset.y;
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:CGPointMake(0, y)];
-    
-    
-}
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     dispatch_async(dispatch_get_main_queue(), ^{
-//        if (self.isPagingEnabled) {
+        if (self.isPagingEnabled) {
             if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
                 [self appendPassMonths];
             }
@@ -165,19 +105,19 @@
             if (scrollView.contentOffset.y + CGRectGetHeight(scrollView.bounds) * 2 > scrollView.contentSize.height) {
                 [self appendFutureMonths];
             }
-//        }
+        }
     });
 }
 
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
-{
-//    if (self.isPagingEnabled) {
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.isPagingEnabled) {
     
         NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems]  sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
             return obj1.section > obj2.section;
         }];
 
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:CGPointMake(CGRectGetWidth(self.collectionView.frame) / 2.0, self.contentOffset.y)];
+    
     
         NSInteger visibleSection;
         NSInteger nextSection;
@@ -195,7 +135,8 @@
             
             visibleSection = [[filterItems lastObject] section];
             nextSection = visibleSection - 1;
-            NSLog(@"%zd %@\n%@", nextSection, sortedIndexPathsForVisibleItems, filterItems);
+            
+            NSLog(@"%zd %zd %f %@\n%@", indexPath.section, nextSection, self.collectionView.contentOffset.y,  sortedIndexPathsForVisibleItems, filterItems);
         } else {
             visibleSection = [sortedIndexPathsForVisibleItems[sortedIndexPathsForVisibleItems.count / 2] section];
             nextSection = visibleSection;
@@ -212,7 +153,7 @@
         
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     
-//    }
+    }
 }
 
 #pragma mark - private methods
@@ -256,7 +197,7 @@
         previousMonth = [previousMonth lk_previousMonth];
         [self.dates insertObject:previousMonth atIndex:0];
     }
-
+    
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
     
@@ -264,9 +205,12 @@
     NSIndexPath *nowSectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nowSectionIndex];
     CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
     
-    NSLog(@"%zd %zd", originSectionIndexPath.section, nowSectionIndex);
+    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
     
-    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y)) animated:NO];
+    NSLog(@"%zd %zd %f", originSectionIndexPath.section, nowSectionIndex, self.collectionView.contentOffset.y);
+    self.contentOffset = self.collectionView.contentOffset;
+    self.addedPassMonthQuanlity = 3;
+
 }
 
 #pragma mark - getter and setter
