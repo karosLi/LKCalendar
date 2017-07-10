@@ -126,7 +126,7 @@ static NSString *kCellKind = @"kCellKind";
     CGFloat sectionLeftPadding = self.collectionView.contentInset.left;
     CGFloat sectionRightPadding = self.collectionView.contentInset.right;
     // size
-    CGFloat itemWidth = (self.collectionView.bounds.size.width - sectionLeftPadding - sectionRightPadding - 5 * self.minimumInteritemSpacing) / 7.0;
+    CGFloat itemWidth = (self.collectionView.bounds.size.width - sectionLeftPadding - sectionRightPadding - 6 * self.minimumInteritemSpacing) / 7.0;
     CGFloat itemHeigh = itemWidth;
     // origin
     CGFloat itemX = (([currentMonth lk_firstWeekDayOfMonth] + indexPath.item) % 7) * (itemWidth + self.minimumInteritemSpacing);

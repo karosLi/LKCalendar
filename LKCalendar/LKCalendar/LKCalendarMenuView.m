@@ -38,8 +38,9 @@
     self.collectionView.contentInset = self.contentInset;
     CGFloat sectionLeftPadding = self.collectionView.contentInset.left;
     CGFloat sectionRightPadding = self.collectionView.contentInset.right;
-    CGFloat itemWidth = (self.collectionView.bounds.size.width - sectionLeftPadding - sectionRightPadding - 5 * self.minimumInteritemSpacing) / 7.0;
+    CGFloat itemWidth = (CGRectGetWidth(self.bounds) - sectionLeftPadding - sectionRightPadding - 6 * self.minimumInteritemSpacing) / 7.0;
     
+    self.layout.minimumInteritemSpacing = self.minimumInteritemSpacing;
     self.layout.itemSize = CGSizeMake(itemWidth, self.bounds.size.height);
     
     [super layoutSubviews];
