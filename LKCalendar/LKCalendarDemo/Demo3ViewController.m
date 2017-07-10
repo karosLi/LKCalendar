@@ -30,10 +30,11 @@
     rect.size.height = monthHeight;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveLinear animations:^{
         self.calendarView.frame = rect;
-        [self.calendarView layoutIfNeeded];
+        [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         
     }];
+
 }
 
 - (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day {

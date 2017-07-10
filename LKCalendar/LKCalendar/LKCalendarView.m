@@ -186,7 +186,9 @@
             NSDate *scrollToMonthDate = [self.dates objectAtIndex:nextSection];
             CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
             
-            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+            });
         }
     }
 }
@@ -254,7 +256,10 @@
     if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
         NSDate *scrollToMonthDate = date;
         CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
-        [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:wholeMonthHeight];
+        });
     }
 }
 
