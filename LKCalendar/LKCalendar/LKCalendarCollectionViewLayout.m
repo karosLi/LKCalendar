@@ -21,6 +21,21 @@ static NSString *kCellKind = @"kCellKind";
 
 @implementation LKCalendarCollectionViewLayout
 
+- (instancetype)init {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.minimumLineSpacing = 0.0;
+    self.minimumInteritemSpacing = 0.0;
+    self.itemHeight = 40.0;
+    self.headerHeight = 22.0;
+    self.footerHeight = 20.0;
+    
+    return self;
+}
+
 #pragma mark - public methods
 
 - (CGFloat)wholeSectionHeightAtIndexPath:(NSIndexPath *)indexPath {
@@ -35,6 +50,7 @@ static NSString *kCellKind = @"kCellKind";
     
     totalHeight = CGRectGetMaxY(attributes.frame);
     totalHeight -= supplementaryAttributes.frame.origin.y;
+    totalHeight += self.footerHeight;
     
     return totalHeight;
 }
@@ -74,6 +90,8 @@ static NSString *kCellKind = @"kCellKind";
                 self.totalHeight = CGRectGetMaxY(attributes.frame);
             }
         }
+        
+        self.totalHeight += self.footerHeight;
     }
     
     [self.layoutInformation setObject:supplementaryInfo forKey:UICollectionElementKindSectionHeader];
@@ -112,7 +130,7 @@ static NSString *kCellKind = @"kCellKind";
 #pragma mark - private methods
 - (nullable UICollectionViewLayoutAttributes *)sectionLayoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath topY:(CGFloat)topY {
     UICollectionViewLayoutAttributes *supplementaryAttributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
-    supplementaryAttributes.frame = CGRectMake(0, topY, self.collectionView.bounds.size.width, 22);
+    supplementaryAttributes.frame = CGRectMake(0, topY, self.collectionView.bounds.size.width, self.headerHeight);
     
     return supplementaryAttributes;
 }
@@ -127,7 +145,7 @@ static NSString *kCellKind = @"kCellKind";
     CGFloat sectionRightPadding = self.collectionView.contentInset.right;
     // size
     CGFloat itemWidth = (self.collectionView.bounds.size.width - sectionLeftPadding - sectionRightPadding - 6 * self.minimumInteritemSpacing) / 7.0;
-    CGFloat itemHeigh = itemWidth;
+    CGFloat itemHeigh = self.itemHeight;
     // origin
     CGFloat itemX = (([currentMonth lk_firstWeekDayOfMonth] + indexPath.item) % 7) * (itemWidth + self.minimumInteritemSpacing);
     CGFloat itemY = (([currentMonth lk_firstWeekDayOfMonth] + indexPath.item) / 7) * itemHeigh;

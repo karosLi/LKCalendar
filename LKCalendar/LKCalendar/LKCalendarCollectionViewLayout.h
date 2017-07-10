@@ -13,7 +13,9 @@
 @property (nonatomic, strong) NSMutableArray<NSDate *> *dates;
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 @property (nonatomic, assign) CGFloat minimumInteritemSpacing;
-@property (nonatomic, assign) CGSize headerReferenceSize;
+@property (nonatomic, assign) CGFloat itemHeight;
+@property (nonatomic, assign) CGFloat headerHeight;
+@property (nonatomic, assign) CGFloat footerHeight;
 
 /**
  返回整个月份的高度
