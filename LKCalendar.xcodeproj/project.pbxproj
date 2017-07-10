@@ -21,6 +21,7 @@
 		7CB40E111F0FBE50006D766C /* LKCalendarConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E101F0FBE50006D766C /* LKCalendarConfig.m */; };
 		7CB40E141F0FC132006D766C /* Demo1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E131F0FC132006D766C /* Demo1ViewController.m */; };
 		7CB40E171F108D2D006D766C /* LKCalendarSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E161F108D2D006D766C /* LKCalendarSectionView.m */; };
+		7CB40E1D1F1377C4006D766C /* LKCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40E1C1F1377C4006D766C /* LKCalendarView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		7CB40E131F0FC132006D766C /* Demo1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo1ViewController.m; sourceTree = "<group>"; };
 		7CB40E151F108D2D006D766C /* LKCalendarSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKCalendarSectionView.h; sourceTree = "<group>"; };
 		7CB40E161F108D2D006D766C /* LKCalendarSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKCalendarSectionView.m; sourceTree = "<group>"; };
+		7CB40E1B1F1377C4006D766C /* LKCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LKCalendarView.h; sourceTree = "<group>"; };
+		7CB40E1C1F1377C4006D766C /* LKCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LKCalendarView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,8 @@
 			children = (
 				7CB40E0C1F0FBE14006D766C /* LKCalendar.h */,
 				7CB40E0D1F0FBE14006D766C /* LKCalendar.m */,
+				7CB40E1B1F1377C4006D766C /* LKCalendarView.h */,
+				7CB40E1C1F1377C4006D766C /* LKCalendarView.m */,
 				7CB40E0F1F0FBE50006D766C /* LKCalendarConfig.h */,
 				7CB40E101F0FBE50006D766C /* LKCalendarConfig.m */,
 				7CB40E001F0FAFFF006D766C /* LKCalendarCollectionViewLayout.h */,
@@ -215,6 +220,7 @@
 				7CB40E0B1F0FBCCF006D766C /* LKCalendarCell.m in Sources */,
 				7CB40E141F0FC132006D766C /* Demo1ViewController.m in Sources */,
 				7CB40DFF1F0F89AA006D766C /* HomeTestViewController.m in Sources */,
+				7CB40E1D1F1377C4006D766C /* LKCalendarView.m in Sources */,
 				7CB40E171F108D2D006D766C /* LKCalendarSectionView.m in Sources */,
 				7CB40E111F0FBE50006D766C /* LKCalendarConfig.m in Sources */,
 				7CB40E051F0FB35F006D766C /* NSDate+LKCalendar.m in Sources */,
