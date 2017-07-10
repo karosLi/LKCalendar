@@ -2,12 +2,14 @@
 //  LKCalendar.h
 //  LKCalendar
 //
-//  Created by karos li on 2017/7/7.
+//  Created by karos li on 2017/7/10.
 //  Copyright © 2017年 karos. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef LKCalendar_h
+#define LKCalendar_h
 
-@interface LKCalendar : NSObject
+#import "LKCalendarConfig.h"
+#import "LKCalendarView.h"
 
-@end
+#endif /* LKCalendar_h */

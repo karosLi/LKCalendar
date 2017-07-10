@@ -32,8 +32,8 @@
     }
     
     self.config = config;
-    [self setupView];
     [self commonInit];
+    [self setupView];
     
     return self;
 }
@@ -44,8 +44,8 @@
         return nil;
     }
     
-    [self setupView];
     [self commonInit];
+    [self setupView];
     
     return self;
 }
@@ -59,13 +59,19 @@
         self.config = [[LKCalendarConfig alloc] init];
     }
     
+    NSInteger monthQuanlityToAdd;
     if (self.config.totalNumberOfyears <= 0) {
         self.config.totalNumberOfyears = 2;
     }
     
+    monthQuanlityToAdd = 12 * self.config.totalNumberOfyears / 2;
+    if (self.config.isPagingEnabled) {
+        monthQuanlityToAdd = 6;
+    }
+    
     [self.dates addObject:self.currentMonth];
-    [self addPreviousMonthsOfQuanlity:self.config.totalNumberOfyears / 2];
-    [self addNextMonthsOfQuanlity:self.config.totalNumberOfyears / 2];
+    [self addPreviousMonthsOfQuanlity:monthQuanlityToAdd];
+    [self addNextMonthsOfQuanlity:monthQuanlityToAdd];
     self.layout.dates = self.dates;
 }
 
@@ -231,6 +237,7 @@
         
         [_collectionView registerClass:[LKCalendarCell class] forCellWithReuseIdentifier:NSStringFromClass([LKCalendarCell class])];
         [_collectionView registerClass:[LKCalendarSectionView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([LKCalendarSectionView class])];
+        _collectionView.frame = self.bounds;
         [_collectionView reloadData];
         [_collectionView layoutIfNeeded];
         [self scrollToToday:NO];

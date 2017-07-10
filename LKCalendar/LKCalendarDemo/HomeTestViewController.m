@@ -8,10 +8,11 @@
 
 #import "HomeTestViewController.h"
 #import "Demo1ViewController.h"
+#import "Demo2ViewController.h"
 
 typedef  NS_ENUM(NSInteger, TestType) {
     TestTypeCalendar,
-    
+    TestTypePaging,
 };
 
 static NSArray *testTypes;
@@ -28,6 +29,8 @@ static NSArray *testTypes;
     if (self == [HomeTestViewController self]) {
         testTypes = @[@{@"type" : @(TestTypeCalendar),
                         @"desc" : @"显示日历"},
+                      @{@"type" : @(TestTypePaging),
+                        @"desc" : @"日历分页"}
                       ];
     }
 }
@@ -71,6 +74,8 @@ static NSArray *testTypes;
     
     if (type == TestTypeCalendar) {
         [self.navigationController pushViewController:[Demo1ViewController new] animated:YES];
+    } else {
+        [self.navigationController pushViewController:[Demo2ViewController new] animated:YES];
     }
 }
 
