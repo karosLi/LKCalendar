@@ -149,6 +149,7 @@
 
 #pragma mark - load more months
 - (void)appendFutureMonths {
+    // 向后添加月份
     NSDate *lastMonth = self.dates.lastObject;
     NSDate *nextMonth = lastMonth;
     for (NSInteger i = 0; i < 1 * 3; i++) {
@@ -159,41 +160,15 @@
 }
 
 - (void)appendPastMonths {
-//    NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems]  sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
-//        return obj1.section > obj2.section;
-//    }];
-//    
-//    NSArray *filterItems = [sortedIndexPathsForVisibleItems filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSIndexPath  * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-//        return [evaluatedObject item] == 0;
-//    }]];
-//
-//    NSIndexPath *originSectionIndexPath = filterItems.firstObject;
-//    NSDate *originSectionDate = [self.dates objectAtIndex:originSectionIndexPath.section];
-//    CGRect originSectionFrame = [self.layout sectionFrameAtIndexPath:originSectionIndexPath];
-//    
-//    NSDate *firstMonth = self.dates.firstObject;
-//    NSDate *previousMonth = firstMonth;
-//    for (NSInteger i = 0; i < 1 * 3; i++) {
-//        previousMonth = [previousMonth lk_previousMonth];
-//        [self.dates insertObject:previousMonth atIndex:0];
-//    }
-//    
-//    [self.collectionView reloadData];
-//    [self.collectionView layoutIfNeeded];
-//    
-//    NSInteger nowSectionIndex = [self.dates indexOfObject:originSectionDate];
-//    NSIndexPath *nowSectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nowSectionIndex];
-//    CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
-//    
-//    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
-    
     NSArray *visibleCells = [self.collectionView visibleCells];
     if (![visibleCells count])
         return;
     
+    // 记录当前正在显示的月份
     NSIndexPath *originIndexPath = [self.collectionView indexPathForCell:((UICollectionViewCell *)visibleCells[0]) ];
     NSInteger originSection = originIndexPath.section;
     
+    // 向前添加月份
     NSDate *firstMonth = self.dates.firstObject;
     NSDate *previousMonth = firstMonth;
     for (NSInteger i = 0; i < 1 * 3; i++) {
@@ -204,6 +179,7 @@
     [self.collectionView reloadData];
     [self.collectionView layoutIfNeeded];
 
+    // 使用记录月份加上添加的月份来计算记录月份新的位置
     NSInteger nowSectionIndex = originSection + 3;
     NSIndexPath *nowSectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:nowSectionIndex];
     CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
