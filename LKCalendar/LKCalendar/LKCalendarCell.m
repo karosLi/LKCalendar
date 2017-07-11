@@ -57,9 +57,10 @@
 }
 
 - (void)setSelected:(BOOL)selected {
+    BOOL originSelected = self.selected;
     [super setSelected:selected];
     
-    if (selected) {
+    if (selected && !originSelected) {
         CAAnimationGroup *group = [CAAnimationGroup animation];
         CABasicAnimation *zoomOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
         zoomOut.fromValue = @0.3;
