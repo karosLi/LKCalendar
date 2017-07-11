@@ -6,13 +6,15 @@
 //  Copyright © 2017年 karos. All rights reserved.
 //
 
+#define LKCalendarBounceAnimationDuration 0.15
+
 #import "LKCalendarCell.h"
 
 @interface LKCalendarCell ()
 
-@property (nonatomic, strong) UIView *bgView;
+@property (nonatomic, strong) CAShapeLayer *bgLayer;
+@property (nonatomic, strong) CAShapeLayer *eventLayer;
 @property (nonatomic, strong) UILabel *textLabel;
-@property (nonatomic, strong) UIView *eventView;
 
 @end
 
@@ -30,16 +32,39 @@
 }
 
 - (void)setupView {
-    [self.contentView addSubview:self.bgView];
+    [self.contentView.layer addSublayer:self.bgLayer];
     [self.contentView addSubview:self.textLabel];
-    [self.contentView addSubview:self.eventView];
+    [self.contentView.layer addSublayer:self.eventLayer];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.textLabel.frame = self.bounds;
-    self.bgView.frame = CGRectMake((CGRectGetWidth(self.bounds) - 35) / 2, (CGRectGetHeight(self.bounds) - 35) / 2, 35, 35);
-    self.eventView.frame = CGRectMake((CGRectGetWidth(self.bounds) - 5) / 2, CGRectGetHeight(self.bounds) - 5, 5, 5);
+    self.bgLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 35) / 2, (CGRectGetHeight(self.bounds) - 35) / 2, 35, 35);
+    self.eventLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 5) / 2, CGRectGetHeight(self.bounds) - 5, 5, 5);
+}
+
+#pragma mark - public methods
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    
+    if (selected) {
+        CAAnimationGroup *group = [CAAnimationGroup animation];
+        CABasicAnimation *zoomOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        zoomOut.fromValue = @0.3;
+        zoomOut.toValue = @1.2;
+        zoomOut.duration = LKCalendarBounceAnimationDuration/4*3;
+        CABasicAnimation *zoomIn = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        zoomIn.fromValue = @1.2;
+        zoomIn.toValue = @1.0;
+        zoomIn.beginTime = LKCalendarBounceAnimationDuration/4*3;
+        zoomIn.duration = LKCalendarBounceAnimationDuration/4;
+        group.duration = LKCalendarBounceAnimationDuration;
+        group.animations = @[zoomOut, zoomIn];
+        [self.bgLayer addAnimation:group forKey:@"bounce"];
+    }
+    
+    self.bgLayer.opacity = selected ? 1.0 : 0.0;
 }
 
 #pragma mark - getter and setter
@@ -54,26 +79,27 @@
     return _textLabel;
 }
 
-- (UIView *)bgView {
-    if (!_bgView) {
-        _bgView = [UIView new];
-        _bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.1];
-        _bgView.layer.cornerRadius = 35.0 / 2;
-        _bgView.layer.masksToBounds = YES;
+- (CAShapeLayer *)bgLayer {
+    if (!_bgLayer) {
+        _bgLayer = [CAShapeLayer layer];
+        _bgLayer.backgroundColor = [[[UIColor blackColor] colorWithAlphaComponent:0.1] CGColor];
+        _bgLayer.cornerRadius = 35.0 / 2;
+        _bgLayer.masksToBounds = YES;
+        _bgLayer.opacity = 0;
     }
     
-    return _bgView;
+    return _bgLayer;
 }
 
-- (UIView *)eventView {
-    if (!_eventView) {
-        _eventView = [UIView new];
-        _eventView.backgroundColor = [UIColor colorWithRed:1 green:78.0 / 255.0 blue:0 alpha:1];
-        _eventView.layer.cornerRadius = 5.0 / 2;
-        _eventView.layer.masksToBounds = YES;
+- (CAShapeLayer *)eventLayer {
+    if (!_eventLayer) {
+        _eventLayer = [CAShapeLayer layer];
+        _eventLayer.backgroundColor = [[UIColor colorWithRed:1 green:78.0 / 255.0 blue:0 alpha:1] CGColor];
+        _eventLayer.cornerRadius = 5.0 / 2;
+        _eventLayer.masksToBounds = YES;
     }
     
-    return _eventView;
+    return _eventLayer;
 }
 
 @end
