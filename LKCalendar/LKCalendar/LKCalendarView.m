@@ -209,6 +209,7 @@
         *targetContentOffset = topOfHeader;
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
         
+        [self restoreSelection];
         [self proxyScrollToMonth:[self.dates objectAtIndex:nextSection] sectionIndexPath:sectionIndexPath];
     }
 }
@@ -242,7 +243,6 @@
     CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
     
     [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
-    [self restoreSelection];
 }
 
 - (void)addNextMonthsOfQuanlity:(NSInteger)quanlity {
