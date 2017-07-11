@@ -9,9 +9,11 @@
 #import "Demo4ViewController.h"
 #import "LKCalendar.h"
 
-@interface Demo4ViewController () <LKCalendarViewDelegate>
+@interface Demo4ViewController () <LKCalendarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) LKCalendarView *calendarView;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray<NSString *> *stringArray;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) NSMutableArray<NSDate *> *eventDates;
@@ -27,12 +29,19 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"今天" style:UIBarButtonItemStylePlain target:self action:@selector(onClickToday)];
     
     [self.view addSubview:self.calendarView];
+    [self.view addSubview:self.tableView];
     
     NSDate *now = [NSDate date];
     [self.eventDates addObject:now];
     [self.eventDates addObjectsFromArray:[self generateNextDaysEventOfQuanlity:8 fromDay:now]];
     NSDate *nextMonth = [now lk_nextMonth];
     [self.eventDates addObjectsFromArray:[self generateNextDaysEventOfQuanlity:10 fromDay:nextMonth]];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.calendarView.frame), CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - CGRectGetMaxY(self.calendarView.frame));
 }
 
 #pragma mark - LKCalendarViewDelegate
@@ -64,6 +73,18 @@
     return 0;
 }
 
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.stringArray.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
+    cell.textLabel.text = self.stringArray[indexPath.row];
+    
+    return cell;
+}
+
 #pragma mark - event response
 - (void)onClickToday {
     [self.calendarView scrollToToday:YES];
@@ -92,6 +113,33 @@
     }
     
     return _calendarView;
+}
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        UITableView *tableView = [[UITableView alloc] init];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+        tableView.tableFooterView = [UIView new];
+        _tableView = tableView;
+    }
+    
+    return _tableView;
+}
+
+- (NSArray<NSString *> *)stringArray {
+    if (!_stringArray) {
+        NSMutableArray *stringArray = @[].mutableCopy;
+        for (NSInteger i = 1; i <= 20; i++) {
+            NSString *string = [NSString stringWithFormat:@"你是猴子派来的逗比 %zd 吗", i];
+            [stringArray addObject:string];
+        }
+        
+        _stringArray = [stringArray copy];
+    }
+    
+    return _stringArray;
 }
 
 - (NSDateFormatter *)dateFormatter {

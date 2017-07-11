@@ -49,11 +49,6 @@ static NSArray *testTypes;
     self.tableView.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:self.tableView];
-    
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
-    self.tableView.tableFooterView = [UIView new];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -95,6 +90,10 @@ static NSArray *testTypes;
 - (UITableView *)tableView {
     if (!_tableView) {
         UITableView *tableView = [[UITableView alloc] init];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:NSStringFromClass([UITableViewCell class])];
+        tableView.tableFooterView = [UIView new];
         _tableView = tableView;
     }
     
