@@ -42,6 +42,18 @@
     self.textLabel.frame = self.bounds;
     self.bgLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 35) / 2, (CGRectGetHeight(self.bounds) - 35) / 2, 35, 35);
     self.eventLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 5) / 2, CGRectGetHeight(self.bounds) - 5, 5, 5);
+    
+    CGPathRef path = [UIBezierPath bezierPathWithRoundedRect:self.bgLayer.bounds
+                                                cornerRadius:CGRectGetWidth(self.bgLayer.bounds) * 0.5].CGPath;
+    if (!CGPathEqualToPath(self.bgLayer.path, path)) {
+        self.bgLayer.path = path;
+    }
+
+    path = [UIBezierPath bezierPathWithRoundedRect:self.eventLayer.bounds
+                                                cornerRadius:CGRectGetWidth(self.eventLayer.bounds) * 0.5].CGPath;
+    if (!CGPathEqualToPath(self.eventLayer.path, path)) {
+        self.eventLayer.path = path;
+    }
 }
 
 #pragma mark - public methods
@@ -82,9 +94,7 @@
 - (CAShapeLayer *)bgLayer {
     if (!_bgLayer) {
         _bgLayer = [CAShapeLayer layer];
-        _bgLayer.backgroundColor = [[[UIColor blackColor] colorWithAlphaComponent:0.1] CGColor];
-        _bgLayer.cornerRadius = 35.0 / 2;
-        _bgLayer.masksToBounds = YES;
+        _bgLayer.fillColor = [[[UIColor blackColor] colorWithAlphaComponent:0.1] CGColor];
         _bgLayer.opacity = 0;
     }
     
@@ -94,9 +104,7 @@
 - (CAShapeLayer *)eventLayer {
     if (!_eventLayer) {
         _eventLayer = [CAShapeLayer layer];
-        _eventLayer.backgroundColor = [[UIColor colorWithRed:1 green:78.0 / 255.0 blue:0 alpha:1] CGColor];
-        _eventLayer.cornerRadius = 5.0 / 2;
-        _eventLayer.masksToBounds = YES;
+        _eventLayer.fillColor = [[UIColor colorWithRed:1 green:78.0 / 255.0 blue:0 alpha:1] CGColor];
     }
     
     return _eventLayer;
