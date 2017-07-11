@@ -143,7 +143,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDate *month = self.dates[indexPath.section];
     NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
-    [self.selectedDates removeObject:day];
+    
+    for (NSDate *selectedDate in self.selectedDates) {
+        if ([NSDate lk_isDate:selectedDate inSameDayAsDate:day]) {
+            [self.selectedDates removeObject:selectedDate];
+        }
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -265,7 +270,8 @@
 
 #pragma mark - private methods
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated {
-    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:[self.dates indexOfObject:date]];
+    NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
+    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:monthInterval];
     
     CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
     [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
@@ -286,8 +292,9 @@
 }
 
 - (void)selectDate:(NSDate *)date {
-    NSInteger day = [date lk_day:date];
-    NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:[self.dates indexOfObject:date]];
+    NSInteger day = [date lk_day];
+    NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
+    NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
     [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     
     [self.selectedDates addObject:date];
@@ -299,8 +306,9 @@
 - (void)restoreSelection {
     if (self.selectedDates.count > 0) {
         NSDate *date = self.selectedDates[0];
-        NSInteger day = [date lk_day:date];
-        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:[self.dates indexOfObject:date]];
+        NSInteger day = [date lk_day];
+        NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
+        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
         [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
 }

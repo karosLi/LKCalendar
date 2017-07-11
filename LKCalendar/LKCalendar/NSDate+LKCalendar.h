@@ -10,12 +10,14 @@
 
 @interface NSDate (LKCalendar)
 
+- (NSDate *)lk_firstDayOfMonth;
 - (NSInteger)lk_numberOfDaysOfMonth;
 - (NSInteger)lk_numberOfWeeksOfMonth;
 - (NSInteger)lk_firstWeekDayOfMonth;
 - (NSDate *)lk_nextMonth;
 - (NSDate *)lk_previousMonth;
-- (NSInteger)lk_day:(NSDate *)date;
+- (NSInteger)lk_day;
+- (NSInteger)lk_monthIntervalToDate:(NSDate *)toDate;
 
 + (NSDate *)lk_setDay:(NSInteger)day toMonth:(NSDate *)month;
 + (BOOL)lk_isDate:(NSDate *)date1 inSameDayAsDate:(NSDate *)date2;

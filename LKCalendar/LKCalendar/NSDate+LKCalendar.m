@@ -11,6 +11,11 @@
 
 @implementation NSDate (LKCalendar)
 
+- (NSDate *)lk_firstDayOfMonth {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    return [calendar lk_firstDayOfMonth:self];
+}
+
 - (NSInteger)lk_numberOfDaysOfMonth {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     return [calendar lk_numberOfDaysInMonth:self];
@@ -40,9 +45,14 @@
     return newDate;
 }
 
-- (NSInteger)lk_day:(NSDate *)date {
+- (NSInteger)lk_day {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     return [calendar lk_day:self];
+}
+
+- (NSInteger)lk_monthIntervalToDate:(NSDate *)toDate {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    return [calendar components:NSCalendarUnitMonth fromDate:self toDate:toDate options:0].month;
 }
 
 + (NSDate *)lk_setDay:(NSInteger)day toMonth:(NSDate *)month {
