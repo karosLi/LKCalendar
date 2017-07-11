@@ -26,6 +26,7 @@
 @property (nonatomic, strong) LKCalendarConfig *config;
 
 @property (nonatomic, assign) BOOL wasScrolledToToday;
+@property (nonatomic, strong) NSMutableArray<NSDate *> *selectedDates;
 
 @end
 
@@ -94,6 +95,11 @@
     }
 }
 
+#pragma mark - public methods
+- (void)scrollToToday:(BOOL)animated {
+    [self scrollToDate:self.currentMonth animated:animated];
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.dates.count;
@@ -126,11 +132,18 @@
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDate *month = self.dates[indexPath.section];
+    NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
+    [self.selectedDates addObject:day];
     if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDay:)]) {
-        NSDate *month = self.dates[indexPath.section];
-        NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
         [self.delegate calendarView:self didSelectDay:day];
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDate *month = self.dates[indexPath.section];
+    NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
+    [self.selectedDates removeObject:day];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -229,6 +242,7 @@
     CGRect nowSectionFrame = [self.layout sectionFrameAtIndexPath:nowSectionIndexPath];
     
     [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentOffset.y + (nowSectionFrame.origin.y - originSectionFrame.origin.y))];
+    [self restoreSelection];
 }
 
 - (void)addNextMonthsOfQuanlity:(NSInteger)quanlity {
@@ -250,15 +264,12 @@
 }
 
 #pragma mark - private methods
-- (void)scrollToToday:(BOOL)animated {
-    [self scrollToDate:self.currentMonth animated:animated];
-}
-
 - (void)scrollToDate:(NSDate *)date animated:(BOOL)animated {
     NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:[self.dates indexOfObject:date]];
     
     CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
     [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
+    [self restoreSelection];
     
     if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
         NSDate *scrollToMonthDate = date;
@@ -279,8 +290,18 @@
     NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:[self.dates indexOfObject:date]];
     [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     
+    [self.selectedDates addObject:date];
     if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDay:)]) {
         [self.delegate calendarView:self didSelectDay:date];
+    }
+}
+
+- (void)restoreSelection {
+    if (self.selectedDates.count > 0) {
+        NSDate *date = self.selectedDates[0];
+        NSInteger day = [date lk_day:date];
+        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:[self.dates indexOfObject:date]];
+        [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
 }
 
@@ -296,6 +317,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
+        _collectionView.scrollsToTop = NO;
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -324,6 +346,14 @@
     }
     
     return _dates;
+}
+
+- (NSMutableArray<NSDate *> *)selectedDates {
+    if (!_selectedDates) {
+        _selectedDates = [NSMutableArray array];
+    }
+    
+    return _selectedDates;
 }
 
 - (NSDate *)currentMonth {

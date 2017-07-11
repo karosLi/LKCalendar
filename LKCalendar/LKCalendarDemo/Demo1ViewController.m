@@ -20,12 +20,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"今天" style:UIBarButtonItemStylePlain target:self action:@selector(onClickToday)];
+    
     [self.view addSubview:self.calendarView];
 }
 
 #pragma mark - LKCalendarViewDelegate
 - (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day {
     NSLog(@"%@", day);
+}
+
+#pragma mark - event response
+- (void)onClickToday {
+    [self.calendarView scrollToToday:YES];
 }
 
 #pragma mark - getter and setter
