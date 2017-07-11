@@ -15,7 +15,8 @@
 
 @optional
 - (void)calendarView:(LKCalendarView *)calendarView scrollToMonth:(NSDate *)month withMonthHeight:(CGFloat)monthHeight;
-- (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day;
+- (void)calendarView:(LKCalendarView *)calendarView didSelectDate:(NSDate *)date;
+- (NSInteger)calendarView:(LKCalendarView *)calendarView numberOfEventsForDate:(NSDate *)date;
 
 @end
 

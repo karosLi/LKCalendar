@@ -109,7 +109,7 @@
     if (!_eventLayer) {
         _eventLayer = [CAShapeLayer layer];
         _eventLayer.fillColor = [[UIColor colorWithRed:1 green:78.0 / 255.0 blue:0 alpha:1] CGColor];
-        _bgLayer.opacity = 0;
+        _eventLayer.opacity = 0;
     }
     
     return _eventLayer;

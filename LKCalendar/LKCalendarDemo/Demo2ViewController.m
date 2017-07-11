@@ -27,8 +27,8 @@
 }
 
 #pragma mark - LKCalendarViewDelegate
-- (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day {
-    NSLog(@"%@", day);
+- (void)calendarView:(LKCalendarView *)calendarView didSelectDate:(NSDate *)date {
+    NSLog(@"%@", date);
 }
 
 #pragma mark - event response

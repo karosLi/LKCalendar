@@ -114,11 +114,14 @@
     LKCalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([LKCalendarCell class]) forIndexPath:indexPath];
     
     NSDate *month = self.dates[indexPath.section];
-    if ([NSDate lk_isDate:self.currentMonth inSameDayAsDate:[NSDate lk_setDay:indexPath.item + 1 toMonth:month]]) {
+    NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
+    if ([NSDate lk_isDate:self.currentMonth inSameDayAsDate:day]) {
         cell.textLabel.text = @"今天";
     } else {
         cell.textLabel.text = [@(indexPath.item + 1) stringValue];
     }
+    
+    cell.hasEvent = [self proxyNumberOfEvent:day];
     
     return cell;
 }
@@ -135,9 +138,7 @@
     NSDate *month = self.dates[indexPath.section];
     NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
     [self.selectedDates addObject:day];
-    if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDay:)]) {
-        [self.delegate calendarView:self didSelectDay:day];
-    }
+    [self proxyDidSelectDate:day];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -207,14 +208,7 @@
         *targetContentOffset = topOfHeader;
         scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
         
-        if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
-            NSDate *scrollToMonthDate = [self.dates objectAtIndex:nextSection];
-            CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
-            });
-        }
+        [self proxyScrollToMonth:[self.dates objectAtIndex:nextSection] sectionIndexPath:sectionIndexPath];
     }
 }
 
@@ -276,15 +270,7 @@
     CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
     [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
     [self restoreSelection];
-    
-    if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
-        NSDate *scrollToMonthDate = date;
-        CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
-        });
-    }
+    [self proxyScrollToMonth:date sectionIndexPath:sectionIndexPath];
 }
 
 - (void)selectToday {
@@ -298,9 +284,7 @@
     [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     
     [self.selectedDates addObject:date];
-    if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDay:)]) {
-        [self.delegate calendarView:self didSelectDay:date];
-    }
+    [self proxyDidSelectDate:date];
 }
 
 - (void)restoreSelection {
@@ -311,6 +295,33 @@
         NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
         [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
+}
+
+#pragma mark - delegate callback
+
+- (void)proxyScrollToMonth:(NSDate *)date sectionIndexPath:(NSIndexPath *)sectionIndexPath {
+    if ([self.delegate respondsToSelector:@selector(calendarView:scrollToMonth:withMonthHeight:)]) {
+        NSDate *scrollToMonthDate = date;
+        CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
+        });
+    }
+}
+
+- (void)proxyDidSelectDate:(NSDate *)date {
+    if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDate:)]) {
+        [self.delegate calendarView:self didSelectDate:date];
+    }
+}
+
+- (NSInteger)proxyNumberOfEvent:(NSDate *)date {
+    if ([self.delegate respondsToSelector:@selector(calendarView:numberOfEventsForDate:)]) {
+        return [self.delegate calendarView:self numberOfEventsForDate:date];
+    }
+    
+    return 0;
 }
 
 #pragma mark - getter and setter
