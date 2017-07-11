@@ -12,16 +12,16 @@
 4. 分页显示日历和事件
 
 ## 效果
-1. 范围显示日历
+### 1. 范围显示日历
 ![image](https://github.com/karosLi/LKCalendar/blob/master/Demo1.gif)
 
-2. 分页显示日历
+### 2. 分页显示日历
 ![image](https://github.com/karosLi/LKCalendar/blob/master/Demo2.gif)
 
-3. 分页显示日历并改变日历控件大小
+### 3. 分页显示日历并改变日历控件大小
 ![image](https://github.com/karosLi/LKCalendar/blob/master/Demo3.gif)
 
-4. 分页显示日历和事件
+### 4. 分页显示日历和事件
 ![image](https://github.com/karosLi/LKCalendar/blob/master/Demo4.gif)
 
 ## 最后
