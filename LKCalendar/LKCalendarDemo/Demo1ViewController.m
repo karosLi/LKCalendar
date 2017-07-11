@@ -9,7 +9,7 @@
 #import "Demo1ViewController.h"
 #import "LKCalendar.h"
 
-@interface Demo1ViewController ()
+@interface Demo1ViewController () <LKCalendarViewDelegate>
 
 @property (nonatomic, strong) LKCalendarView *calendarView;
 
@@ -23,6 +23,11 @@
     [self.view addSubview:self.calendarView];
 }
 
+#pragma mark - LKCalendarViewDelegate
+- (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day {
+    NSLog(@"%@", day);
+}
+
 #pragma mark - getter and setter
 - (LKCalendarView *)calendarView {
     if (!_calendarView) {
@@ -30,6 +35,7 @@
         config.totalNumberOfyears = 2;
         
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 400) config:config];
+        _calendarView.delegate = self;
     }
     
     return _calendarView;

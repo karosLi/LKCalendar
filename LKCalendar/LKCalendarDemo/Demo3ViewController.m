@@ -23,9 +23,8 @@
     [self.view addSubview:self.calendarView];
 }
 
+#pragma mark - LKCalendarViewDelegate
 - (void)calendarView:(LKCalendarView *)calendarView scrollToMonth:(NSDate *)month withMonthHeight:(CGFloat)monthHeight {
-    NSLog(@"%f", monthHeight);
-    
     CGRect rect = self.calendarView.frame;
     rect.size.height = monthHeight;
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveLinear animations:^{
@@ -34,11 +33,10 @@
     } completion:^(BOOL finished) {
         
     }];
-
 }
 
 - (void)calendarView:(LKCalendarView *)calendarView didSelectDay:(NSDate *)day {
-    
+    NSLog(@"%@", day);
 }
 
 #pragma mark - getter and setter

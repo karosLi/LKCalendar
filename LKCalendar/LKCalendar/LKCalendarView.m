@@ -90,6 +90,7 @@
     if (!self.wasScrolledToToday) {
         self.wasScrolledToToday = YES;
         [self scrollToToday:NO];
+        [self selectToday];
     }
 }
 
@@ -266,6 +267,20 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
         });
+    }
+}
+
+- (void)selectToday {
+    [self selectDate:self.currentMonth];
+}
+
+- (void)selectDate:(NSDate *)date {
+    NSInteger day = [date lk_day:date];
+    NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:[self.dates indexOfObject:date]];
+    [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    
+    if ([self.delegate respondsToSelector:@selector(calendarView:didSelectDay:)]) {
+        [self.delegate calendarView:self didSelectDay:date];
     }
 }
 

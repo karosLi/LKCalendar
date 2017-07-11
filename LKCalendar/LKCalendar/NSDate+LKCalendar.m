@@ -40,6 +40,11 @@
     return newDate;
 }
 
+- (NSInteger)lk_day:(NSDate *)date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    return [calendar lk_day:self];
+}
+
 + (NSDate *)lk_setDay:(NSInteger)day toMonth:(NSDate *)month {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     return [calendar lk_setDay:day toMonth:month];

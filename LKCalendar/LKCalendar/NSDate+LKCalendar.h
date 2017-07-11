@@ -15,6 +15,7 @@
 - (NSInteger)lk_firstWeekDayOfMonth;
 - (NSDate *)lk_nextMonth;
 - (NSDate *)lk_previousMonth;
+- (NSInteger)lk_day:(NSDate *)date;
 
 + (NSDate *)lk_setDay:(NSInteger)day toMonth:(NSDate *)month;
 + (BOOL)lk_isDate:(NSDate *)date1 inSameDayAsDate:(NSDate *)date2;

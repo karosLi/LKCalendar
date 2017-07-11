@@ -11,5 +11,8 @@
 @interface LKCalendarCell : UICollectionViewCell
 
 @property (nonatomic, strong, readonly) UILabel *textLabel;
+@property (nonatomic, assign) BOOL hasEvent;
+
+- (void)configureCell;
 
 @end

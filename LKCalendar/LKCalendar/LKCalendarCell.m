@@ -56,7 +56,6 @@
     }
 }
 
-#pragma mark - public methods
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     
@@ -77,6 +76,11 @@
     }
     
     self.bgLayer.opacity = selected ? 1.0 : 0.0;
+}
+
+#pragma mark - public methods
+- (void)configureCell {
+    self.eventLayer.opacity = self.hasEvent;
 }
 
 #pragma mark - getter and setter
@@ -105,6 +109,7 @@
     if (!_eventLayer) {
         _eventLayer = [CAShapeLayer layer];
         _eventLayer.fillColor = [[UIColor colorWithRed:1 green:78.0 / 255.0 blue:0 alpha:1] CGColor];
+        _bgLayer.opacity = 0;
     }
     
     return _eventLayer;
