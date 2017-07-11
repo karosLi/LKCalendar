@@ -26,7 +26,7 @@
 @property (nonatomic, strong) LKCalendarConfig *config;
 
 @property (nonatomic, assign) BOOL wasScrolledToToday;
-@property (nonatomic, strong) NSMutableArray<NSDate *> *selectedDates;
+@property (nonatomic, strong) NSDate *selectedDate;
 
 @end
 
@@ -138,19 +138,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDate *month = self.dates[indexPath.section];
     NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
-    [self.selectedDates addObject:day];
+    self.selectedDate = day;
     [self proxyDidSelectDate:day];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSDate *month = self.dates[indexPath.section];
-    NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
-    
-    for (NSDate *selectedDate in self.selectedDates) {
-        if ([NSDate lk_isDate:selectedDate inSameDayAsDate:day]) {
-            [self.selectedDates removeObject:selectedDate];
-        }
-    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -284,13 +273,13 @@
     NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
     [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     
-    [self.selectedDates addObject:date];
+    self.selectedDate = date;
     [self proxyDidSelectDate:date];
 }
 
 - (void)restoreSelection {
-    if (self.selectedDates.count > 0) {
-        NSDate *date = self.selectedDates[0];
+    if (self.selectedDate) {
+        NSDate *date = self.selectedDate;
         NSInteger day = [date lk_day];
         NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
         NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
@@ -366,14 +355,6 @@
     }
     
     return _dates;
-}
-
-- (NSMutableArray<NSDate *> *)selectedDates {
-    if (!_selectedDates) {
-        _selectedDates = [NSMutableArray array];
-    }
-    
-    return _selectedDates;
 }
 
 - (NSDate *)currentMonth {
