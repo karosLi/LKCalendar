@@ -121,7 +121,8 @@
         cell.textLabel.text = [@(indexPath.item + 1) stringValue];
     }
     
-    cell.hasEvent = [self proxyNumberOfEvent:day];
+    cell.hasEvent = [self proxyNumberOfEvent:day] > 0;
+    [cell configureCell];
     
     return cell;
 }

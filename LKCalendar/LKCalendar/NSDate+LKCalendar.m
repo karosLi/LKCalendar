@@ -45,6 +45,20 @@
     return newDate;
 }
 
+- (NSDate *)lk_nextDay {
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.day = 1;
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
+    return newDate;
+}
+
+- (NSDate *)lk_previousDay {
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.day = -1;
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
+    return newDate;
+}
+
 - (NSInteger)lk_day {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     return [calendar lk_day:self];

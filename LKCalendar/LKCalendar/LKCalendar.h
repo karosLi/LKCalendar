@@ -11,5 +11,7 @@
 
 #import "LKCalendarConfig.h"
 #import "LKCalendarView.h"
+#import "NSDate+LKCalendar.h"
+#import "NSCalendar+LKCalendar.h"
 
 #endif /* LKCalendar_h */
