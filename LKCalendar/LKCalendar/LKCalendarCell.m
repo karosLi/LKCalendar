@@ -82,6 +82,8 @@
 #pragma mark - public methods
 - (void)configureCell {
     self.eventLayer.opacity = self.hasEvent;
+    self.bgLayer.fillColor = self.selectedDayBackgroundColor.CGColor;
+    self.textLabel.textColor = self.dayTextColor;
 }
 
 #pragma mark - getter and setter

@@ -11,12 +11,15 @@
 #import "Demo2ViewController.h"
 #import "Demo3ViewController.h"
 #import "Demo4ViewController.h"
+#import "Demo5ViewController.h"
 
 typedef  NS_ENUM(NSInteger, TestType) {
     TestTypeRangeCalendar,
     TestTypePageCalendar,
     TestTypePageCalendarDynamic,
     TestTypePageCalendarEvent,
+    TestTypePageCalendarSinglePage,
+    TestTypePageCalendarSinglePageCustomStyle,
 };
 
 static NSArray *testTypes;
@@ -38,7 +41,9 @@ static NSArray *testTypes;
                       @{@"type" : @(TestTypePageCalendarDynamic),
                         @"desc" : @"日历分页并改变自身大小"},
                       @{@"type" : @(TestTypePageCalendarEvent),
-                        @"desc" : @"日历分页并显示事件"}
+                        @"desc" : @"日历分页并显示事件"},
+                      @{@"type" : @(TestTypePageCalendarSinglePage),
+                        @"desc" : @"日历单页并显示事件"}
                       ];
     }
 }
@@ -83,6 +88,8 @@ static NSArray *testTypes;
         [self.navigationController pushViewController:[Demo3ViewController new] animated:YES];
     } else if (type == TestTypePageCalendarEvent) {
         [self.navigationController pushViewController:[Demo4ViewController new] animated:YES];
+    } else if (type == TestTypePageCalendarSinglePage) {
+        [self.navigationController pushViewController:[Demo5ViewController new] animated:YES];
     }
 }
 

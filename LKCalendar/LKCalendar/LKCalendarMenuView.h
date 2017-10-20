@@ -12,5 +12,9 @@
 
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 @property (nonatomic, assign) CGFloat minimumInteritemSpacing;
+/**
+ 菜单文本颜色, 默认值为30%不透明的黑色
+ */
+@property (nonatomic, copy) UIColor *textColor;
 
 @end

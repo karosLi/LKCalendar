@@ -78,7 +78,7 @@ static NSString *kCellKind = @"kCellKind";
         indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
         UICollectionViewLayoutAttributes *supplementaryAttributes = [self sectionLayoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPath topY:self.totalHeight];
         [supplementaryInfo setObject:supplementaryAttributes forKey:indexPath];
-        self.totalHeight = CGRectGetMaxY(supplementaryAttributes.frame) + 10;
+        self.totalHeight = CGRectGetMaxY(supplementaryAttributes.frame) + (self.headerHeight > 0 ? 10 : 0);
         
         NSInteger numItems = [self.collectionView numberOfItemsInSection:section];
         for(NSInteger item = 0; item < numItems; item++){

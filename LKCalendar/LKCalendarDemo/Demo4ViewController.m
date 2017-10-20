@@ -109,6 +109,7 @@
         config.isPagingEnabled = YES;
         
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 400) config:config];
+        _calendarView.backgroundColor = [UIColor whiteColor];
         _calendarView.delegate = self;
     }
     

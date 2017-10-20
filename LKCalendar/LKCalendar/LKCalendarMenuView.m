@@ -57,6 +57,7 @@
     LKCalendarMenuCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([LKCalendarMenuCell class]) forIndexPath:indexPath];
     
     cell.textLabel.text = self.weeks[indexPath.row];
+    cell.textLabel.textColor = self.textColor;
     
     return cell;
 }
@@ -65,7 +66,7 @@
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         

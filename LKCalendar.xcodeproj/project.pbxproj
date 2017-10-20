@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C4601251F99A9D700434CD7 /* Demo5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C4601231F99A9D600434CD7 /* Demo5ViewController.m */; };
 		7CB40DE21F0F8460006D766C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40DE11F0F8460006D766C /* main.m */; };
 		7CB40DE51F0F8460006D766C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40DE41F0F8460006D766C /* AppDelegate.m */; };
 		7CB40DE81F0F8460006D766C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB40DE71F0F8460006D766C /* ViewController.m */; };
@@ -29,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C4601231F99A9D600434CD7 /* Demo5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Demo5ViewController.m; sourceTree = "<group>"; };
+		7C4601241F99A9D700434CD7 /* Demo5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo5ViewController.h; sourceTree = "<group>"; };
 		7CB40DDD1F0F8460006D766C /* LKCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LKCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CB40DE11F0F8460006D766C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7CB40DE31F0F8460006D766C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -160,6 +163,8 @@
 				7CB40E231F13837B006D766C /* Demo3ViewController.m */,
 				7CB40E2B1F14A5F2006D766C /* Demo4ViewController.h */,
 				7CB40E2C1F14A5F2006D766C /* Demo4ViewController.m */,
+				7C4601241F99A9D700434CD7 /* Demo5ViewController.h */,
+				7C4601231F99A9D600434CD7 /* Demo5ViewController.m */,
 			);
 			path = LKCalendarDemo;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				7CB40E271F139E72006D766C /* LKCalendarMenuView.m in Sources */,
 				7CB40E051F0FB35F006D766C /* NSDate+LKCalendar.m in Sources */,
 				7CB40E081F0FB3D8006D766C /* NSCalendar+LKCalendar.m in Sources */,
+				7C4601251F99A9D700434CD7 /* Demo5ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +412,7 @@
 				7CB40DF61F0F8460006D766C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -13,8 +13,6 @@
 #import "LKCalendarMenuView.h"
 #import "NSDate+LKCalendar.h"
 
-#define kLKCalendarMenuViewHeight 62
-
 @interface LKCalendarView () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) LKCalendarMenuView *menuView;
@@ -68,10 +66,6 @@
     }
     
     NSInteger monthQuanlityToAdd;
-    if (self.config.totalNumberOfyears <= 0) {
-        self.config.totalNumberOfyears = 2;
-    }
-    
     monthQuanlityToAdd = 12 * self.config.totalNumberOfyears / 2;
     if (self.config.isPagingEnabled) {
         monthQuanlityToAdd = 6;
@@ -80,14 +74,17 @@
     [self.dates addObject:self.currentMonth];
     [self addPreviousMonthsOfQuanlity:monthQuanlityToAdd];
     [self addNextMonthsOfQuanlity:monthQuanlityToAdd];
+    
+    self.menuView.textColor = self.config.menuTextColor;
     self.layout.dates = self.dates;
+    self.layout.headerHeight = self.config.monthHeight;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.menuView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), kLKCalendarMenuViewHeight);
-    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - kLKCalendarMenuViewHeight);
+    self.menuView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.config.menuHeight);
+    self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - self.config.menuHeight);
     if (!self.wasScrolledToToday) {
         self.wasScrolledToToday = YES;
         [self scrollToToday:NO];
@@ -127,6 +124,8 @@
     }
     
     cell.hasEvent = [self proxyNumberOfEvent:day] > 0;
+    cell.dayTextColor = self.config.dayTextColor;
+    cell.selectedDayBackgroundColor = self.config.selectedDayBackgroundColor;
     [cell configureCell];
     
     return cell;
@@ -135,6 +134,7 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     LKCalendarSectionView *section = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:NSStringFromClass([LKCalendarSectionView class]) forIndexPath:indexPath];
     section.textLabel.text = [[self dateFormatter] stringFromDate:self.dates[indexPath.section]];
+    section.textLabel.textColor = self.config.monthTextColor;
     
     return section;
 }
@@ -300,7 +300,7 @@
         CGFloat wholeMonthHeight = [self.layout wholeSectionHeightAtIndexPath:sectionIndexPath];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:kLKCalendarMenuViewHeight + wholeMonthHeight];
+            [self.delegate calendarView:self scrollToMonth:scrollToMonthDate withMonthHeight:self.config.menuHeight + wholeMonthHeight];
         });
     }
 }
@@ -332,7 +332,7 @@
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.layout];
         _collectionView.scrollsToTop = NO;
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         
