@@ -27,5 +27,6 @@
 - (instancetype)initWithFrame:(CGRect)frame config:(LKCalendarConfig *)config;
 
 - (void)scrollToToday:(BOOL)animated;
+- (void)reloadData;
 
 @end

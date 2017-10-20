@@ -11,6 +11,7 @@
 @interface NSDate (LKCalendar)
 
 - (NSDate *)lk_firstDayOfMonth;
+- (NSDate *)lk_lastDayOfMonth;
 - (NSInteger)lk_numberOfDaysOfMonth;
 - (NSInteger)lk_numberOfWeeksOfMonth;
 - (NSInteger)lk_firstWeekDayOfMonth;

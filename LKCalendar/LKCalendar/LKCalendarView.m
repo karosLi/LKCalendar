@@ -100,6 +100,11 @@
     [self scrollToDate:self.currentMonth animated:animated];
 }
 
+- (void)reloadData {
+    [self.collectionView reloadData];
+    [self restoreSelection];
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.dates.count;

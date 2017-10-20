@@ -16,6 +16,11 @@
     return [calendar lk_firstDayOfMonth:self];
 }
 
+- (NSDate *)lk_lastDayOfMonth {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    return [calendar lk_lastDayOfMonth:self];
+}
+
 - (NSInteger)lk_numberOfDaysOfMonth {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     return [calendar lk_numberOfDaysInMonth:self];
