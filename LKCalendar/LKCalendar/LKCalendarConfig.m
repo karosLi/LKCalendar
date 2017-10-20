@@ -17,6 +17,7 @@
     self.monthHeight = 22;
     self.monthTextColor = [UIColor blackColor];
     self.dayTextColor = [UIColor blackColor];
+    self.dayOutOfMonthTextColor = [UIColor blackColor];
     self.selectedDayBackgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
     
     return self;

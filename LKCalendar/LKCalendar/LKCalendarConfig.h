@@ -36,6 +36,11 @@
 @property (nonatomic, copy) UIColor *dayTextColor;
 
 /**
+ 超出当月的天文本颜色, 默认值为黑色
+ */
+@property (nonatomic, copy) UIColor *dayOutOfMonthTextColor;
+
+/**
  天文本选中背景颜色, 默认值为10%不透明的黑色
  */
 @property (nonatomic, copy) UIColor *selectedDayBackgroundColor;

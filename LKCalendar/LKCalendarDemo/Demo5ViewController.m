@@ -38,8 +38,7 @@
     NSDate *nextMonth = [now lk_nextMonth];
     [self.eventDates addObjectsFromArray:[self generateNextDaysEventOfQuanlity:10 fromDay:nextMonth]];
     
-//    NSDate *previousMonth = [[NSDate date] lk_previousMonth];
-    NSDate *previousMonth = [[[NSDate date] lk_previousMonth] lk_previousMonth];
+    NSDate *previousMonth = [[NSDate date] lk_previousMonth];
     self.calendarView.monthsDataSourse = @[previousMonth];
     [self.calendarView selectDate:[previousMonth lk_nextDay]];
     
@@ -122,6 +121,7 @@
         config.menuTextColor = [UIColor colorWithWhite:1 alpha:0.6];
         config.monthHeight = 0;
         config.dayTextColor = [UIColor whiteColor];
+        config.dayOutOfMonthTextColor = [UIColor colorWithWhite:1 alpha:0.6];
         config.selectedDayBackgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
         
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 400) config:config];
