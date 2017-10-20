@@ -117,6 +117,10 @@
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 400) config:config];
         _calendarView.monthsDataSourse = @[previousMonth];
         _calendarView.delegate = self;
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [_calendarView selectDate:[previousMonth lk_nextDay]];
+        });
     }
     
     return _calendarView;

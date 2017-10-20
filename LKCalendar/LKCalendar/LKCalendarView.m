@@ -148,15 +148,13 @@
 - (void)selectDate:(NSDate *)date {
     NSInteger day = [date lk_day];
     NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
-    if (monthInterval >= self.dates.count) {
-        monthInterval = 0;
+    if (monthInterval < self.dates.count) {
+        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
+        [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        
+        self.selectedDate = date;
+        [self proxyDidSelectDate:date];
     }
-    
-    NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
-    [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-    
-    self.selectedDate = date;
-    [self proxyDidSelectDate:date];
 }
 
 - (void)reloadData {
