@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"选中上个月21号";
     self.view.backgroundColor = [UIColor colorWithRed:253.0 / 255.0 green:159.0 / 255.0 blue:17.0 / 255.0 alpha:1];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"今天" style:UIBarButtonItemStylePlain target:self action:@selector(onClickToday)];
@@ -36,6 +37,17 @@
     [self.eventDates addObjectsFromArray:[self generateNextDaysEventOfQuanlity:8 fromDay:now]];
     NSDate *nextMonth = [now lk_nextMonth];
     [self.eventDates addObjectsFromArray:[self generateNextDaysEventOfQuanlity:10 fromDay:nextMonth]];
+    
+//    NSDate *previousMonth = [[NSDate date] lk_previousMonth];
+    NSDate *previousMonth = [[[NSDate date] lk_previousMonth] lk_previousMonth];
+    self.calendarView.monthsDataSourse = @[previousMonth];
+    [self.calendarView selectDate:[previousMonth lk_nextDay]];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        NSDate *previousM = [previousMonth lk_previousMonth];
+//        self.calendarView.monthsDataSourse = @[previousM];
+//        [self.calendarView selectDate:[previousM lk_previousDay]];
+//    });
 }
 
 - (void)viewWillLayoutSubviews {
@@ -112,15 +124,9 @@
         config.dayTextColor = [UIColor whiteColor];
         config.selectedDayBackgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
         
-        NSDate *previousMonth = [[NSDate date] lk_previousMonth];
-        
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 400) config:config];
-        _calendarView.monthsDataSourse = @[previousMonth];
         _calendarView.delegate = self;
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [_calendarView selectDate:[previousMonth lk_nextDay]];
-        });
+        _calendarView.allowsDisplayDayOutOfMonth = YES;
     }
     
     return _calendarView;

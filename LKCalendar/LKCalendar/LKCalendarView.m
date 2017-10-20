@@ -127,6 +127,11 @@
     [self selectTodayWhenInitIfNeed];
 }
 
+- (void)setAllowsDisplayDayOutOfMonth:(BOOL)allowsDisplayDayOutOfMonth {
+    _allowsDisplayDayOutOfMonth = allowsDisplayDayOutOfMonth;
+    [self reloadData];
+}
+
 - (void)scrollToToday:(BOOL)animated {
     [self scrollToDate:self.currentMonth animated:animated];
 }
@@ -149,7 +154,8 @@
     NSInteger day = [date lk_day];
     NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
     if (monthInterval < self.dates.count) {
-        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
+        NSInteger firstWeekDay = [date lk_firstWeekDayOfMonth];
+        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 + firstWeekDay inSection:monthInterval];
         [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         
         self.selectedDate = date;
@@ -168,22 +174,28 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.dates[section] lk_numberOfDaysOfMonth];
+    NSUInteger weeks = [self.dates[section] lk_numberOfWeeksOfMonth];
+    return weeks * 7;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     LKCalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([LKCalendarCell class]) forIndexPath:indexPath];
     
     NSDate *month = self.dates[indexPath.section];
-    NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
-    if ([NSDate lk_isDate:self.currentMonth inSameDayAsDate:day]) {
-        cell.textLabel.text = @"今天";
+    NSDate *dayDate = [self fetchDateWithMonth:month atIndexPath:indexPath];
+    
+    if (dayDate == 0) {
+        cell.textLabel.text = @"";
     } else {
-        cell.textLabel.text = [@(indexPath.item + 1) stringValue];
+        if ([NSDate lk_isDate:self.currentMonth inSameDayAsDate:dayDate]) {
+            cell.textLabel.text = @"今天";
+        } else {
+            cell.textLabel.text = [@([dayDate lk_day]) stringValue];
+        }
     }
     
-    cell.hasEvent = [self proxyNumberOfEvent:day] > 0;
+    cell.userInteractionEnabled = dayDate != nil;
+    cell.hasEvent = [self proxyNumberOfEvent:dayDate] > 0;
     cell.dayTextColor = self.config.dayTextColor;
     cell.selectedDayBackgroundColor = self.config.selectedDayBackgroundColor;
     [cell configureCell];
@@ -200,11 +212,18 @@
 }
 
 #pragma mark - UICollectionViewDelegate
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDate *month = self.dates[indexPath.section];
+    NSDate *dayDate = [self fetchDateWithMonth:month atIndexPath:indexPath];
+    
+    return dayDate ? YES : NO;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDate *month = self.dates[indexPath.section];
-    NSDate *day = [NSDate lk_setDay:indexPath.item + 1 toMonth:month];
-    self.selectedDate = day;
-    [self proxyDidSelectDate:day];
+    NSDate *dayDate = [self fetchDateWithMonth:month atIndexPath:indexPath];
+    self.selectedDate = dayDate;
+    [self proxyDidSelectDate:dayDate];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -331,9 +350,40 @@
             monthInterval = 0;
         }
         
-        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
+        NSInteger firstWeekDay = [date lk_firstWeekDayOfMonth];
+        NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 + firstWeekDay inSection:monthInterval];
         [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }
+}
+
+- (NSDate *)fetchDateWithMonth:(NSDate *)month atIndexPath:(NSIndexPath *)indexPath {
+    NSDate *dayDate = nil;
+    
+    NSInteger firstWeekDay = [month lk_firstWeekDayOfMonth];
+    NSInteger lastDayOfMonth = [[month lk_lastDayOfMonth] lk_day];
+    
+    if (indexPath.item < firstWeekDay) {
+        // 上个月
+        if (self.allowsDisplayDayOutOfMonth) {
+            NSDate *previousMonth = [month lk_previousMonth];
+            NSDate *lastDayOfPreviousMonth = [previousMonth lk_lastDayOfMonth];
+            NSDate *previousDay = [lastDayOfPreviousMonth lk_previousDay:firstWeekDay - (indexPath.item + 1)];
+            dayDate = previousDay;
+        }
+    } else if (indexPath.item >= firstWeekDay && indexPath.item < firstWeekDay + lastDayOfMonth) {
+        // 本月
+        dayDate = [NSDate lk_setDay:(indexPath.item + 1) - firstWeekDay toMonth:month];
+    } else {
+        // 下个月
+        if (self.allowsDisplayDayOutOfMonth) {
+            NSDate *nextMonth = [month lk_nextMonth];
+            NSDate *firstDayOfNextMonth = [nextMonth lk_firstDayOfMonth];
+            NSDate *nextDay = [firstDayOfNextMonth lk_nextDay:indexPath.item - (firstWeekDay + lastDayOfMonth)];
+            dayDate = nextDay;
+        }
+    }
+    
+    return dayDate;
 }
 
 #pragma mark - delegate callback

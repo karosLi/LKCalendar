@@ -36,32 +36,48 @@
     return [calendar lk_firstWeekDayInMonth:self];
 }
 
-- (NSDate *)lk_nextMonth {
+- (NSDate *)lk_nextMonth:(NSUInteger)number {
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    dateComponents.month = 1;
+    dateComponents.month = number;
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
+    return newDate;
+}
+
+- (NSDate *)lk_nextMonth {
+    return [self lk_nextMonth:1];
+}
+
+- (NSDate *)lk_previousMonth:(NSUInteger)number {
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.month = -number;
     NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
     return newDate;
 }
 
 - (NSDate *)lk_previousMonth {
+    return [self lk_previousMonth:1];
+}
+
+- (NSDate *)lk_nextDay:(NSUInteger)number {
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    dateComponents.month = -1;
+    dateComponents.day = number;
     NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
     return newDate;
 }
 
 - (NSDate *)lk_nextDay {
+    return [self lk_nextDay:1];
+}
+
+- (NSDate *)lk_previousDay:(NSUInteger)number {
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    dateComponents.day = 1;
+    dateComponents.day = -number;
     NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
     return newDate;
 }
 
 - (NSDate *)lk_previousDay {
-    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    dateComponents.day = -1;
-    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:dateComponents toDate:self options:0];
-    return newDate;
+    return [self lk_previousDay:1];
 }
 
 - (NSInteger)lk_day {

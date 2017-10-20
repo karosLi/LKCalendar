@@ -16,9 +16,13 @@
 - (NSInteger)lk_numberOfWeeksOfMonth;
 - (NSInteger)lk_firstWeekDayOfMonth;
 - (NSDate *)lk_nextMonth;
+- (NSDate *)lk_nextMonth:(NSUInteger)number;
 - (NSDate *)lk_previousMonth;
+- (NSDate *)lk_previousMonth:(NSUInteger)number;
 - (NSDate *)lk_nextDay;
+- (NSDate *)lk_nextDay:(NSUInteger)number;
 - (NSDate *)lk_previousDay;
+- (NSDate *)lk_previousDay:(NSUInteger)number;
 - (NSInteger)lk_day;
 - (NSInteger)lk_monthIntervalToDate:(NSDate *)toDate;
 

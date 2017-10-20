@@ -147,8 +147,10 @@ static NSString *kCellKind = @"kCellKind";
     CGFloat itemWidth = (self.collectionView.bounds.size.width - sectionLeftPadding - sectionRightPadding - 6 * self.minimumInteritemSpacing) / 7.0;
     CGFloat itemHeigh = self.itemHeight;
     // origin
-    CGFloat itemX = (([currentMonth lk_firstWeekDayOfMonth] + indexPath.item) % 7) * (itemWidth + self.minimumInteritemSpacing);
-    CGFloat itemY = (([currentMonth lk_firstWeekDayOfMonth] + indexPath.item) / 7) * itemHeigh;
+    CGFloat itemX = 0;
+    CGFloat itemY = 0;
+    itemX = ((indexPath.item) % 7) * (itemWidth + self.minimumInteritemSpacing);
+    itemY = ((indexPath.item) / 7) * itemHeigh;
     layoutAttributes.frame = CGRectMake(itemX, topY + itemY, itemWidth, itemHeigh);
     // 返回 indexPath 位置的 Item 的布局属性
     return layoutAttributes;

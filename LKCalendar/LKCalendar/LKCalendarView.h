@@ -39,6 +39,11 @@
  */
 @property (nonatomic, copy) NSArray<NSDate *> *monthsDataSourse;
 
+/**
+ 是否需要显示超出当月的天
+ */
+@property (nonatomic, assign) BOOL allowsDisplayDayOutOfMonth;
+
 - (instancetype)initWithFrame:(CGRect)frame config:(LKCalendarConfig *)config;
 
 - (void)scrollToToday:(BOOL)animated;
