@@ -111,9 +111,11 @@
         config.monthHeight = 0;
         config.dayTextColor = [UIColor whiteColor];
         config.selectedDayBackgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
-        config.isPagingEnabled = YES;
+        
+        NSDate *previousMonth = [[NSDate date] lk_previousMonth];
         
         _calendarView = [[LKCalendarView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 400) config:config];
+        _calendarView.monthsDataSourse = @[previousMonth];
         _calendarView.delegate = self;
     }
     

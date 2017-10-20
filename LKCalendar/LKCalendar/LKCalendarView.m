@@ -24,6 +24,7 @@
 @property (nonatomic, strong) LKCalendarConfig *config;
 
 @property (nonatomic, assign) BOOL wasScrolledToToday;
+@property (nonatomic, assign) BOOL wasFirstDidDisplay;
 @property (nonatomic, strong) NSDate *selectedDate;
 
 @end
@@ -36,7 +37,7 @@
         return nil;
     }
     
-    self.config = config;
+    self.config = config ? config : [[LKCalendarConfig alloc] init];;
     [self commonInit];
     [self setupView];
     
@@ -61,40 +62,101 @@
 }
 
 - (void)commonInit {
-    if (!self.config) {
-        self.config = [[LKCalendarConfig alloc] init];
-    }
-    
-    NSInteger monthQuanlityToAdd;
-    monthQuanlityToAdd = 12 * self.config.totalNumberOfyears / 2;
-    if (self.config.isPagingEnabled) {
-        monthQuanlityToAdd = 6;
-    }
-    
-    [self.dates addObject:self.currentMonth];
-    [self addPreviousMonthsOfQuanlity:monthQuanlityToAdd];
-    [self addNextMonthsOfQuanlity:monthQuanlityToAdd];
-    
     self.menuView.textColor = self.config.menuTextColor;
-    self.layout.dates = self.dates;
     self.layout.headerHeight = self.config.monthHeight;
+}
+
+- (void)updateDataSourse {
+    [self.dates removeAllObjects];
+    if (self.monthsDataSourse.count > 0) {
+        [self.dates addObjectsFromArray:self.monthsDataSourse];
+    } else {
+        if (self.totalNumberOfyears <= 0) {
+            self.totalNumberOfyears = 2;
+        }
+        
+        NSInteger monthQuanlityToAdd;
+        monthQuanlityToAdd = 12 * self.totalNumberOfyears / 2;
+        if (self.isPagingEnabled) {
+            monthQuanlityToAdd = 6;
+        }
+        
+        [self.dates addObject:self.currentMonth];
+        [self addPreviousMonthsOfQuanlity:monthQuanlityToAdd];
+        [self addNextMonthsOfQuanlity:monthQuanlityToAdd];
+    }
+    
+    self.layout.dates = self.dates;
+}
+
+- (void)selectTodayWhenInitIfNeed {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!self.wasScrolledToToday) {
+            self.wasScrolledToToday = YES;
+            [self scrollToToday:NO];
+            [self selectToday];
+        }
+    });
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     self.menuView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds), self.config.menuHeight);
     self.collectionView.frame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds) - self.config.menuHeight);
-    if (!self.wasScrolledToToday) {
-        self.wasScrolledToToday = YES;
-        [self scrollToToday:NO];
-        [self selectToday];
-    }
 }
 
 #pragma mark - public methods
+- (void)setIsPagingEnabled:(BOOL)isPagingEnabled {
+    _isPagingEnabled = isPagingEnabled;
+    [self updateDataSourse];
+    [self reloadData];
+    [self selectTodayWhenInitIfNeed];
+}
+
+- (void)setTotalNumberOfyears:(NSInteger)totalNumberOfyears {
+    _totalNumberOfyears = totalNumberOfyears > 0 ? totalNumberOfyears : 2 ;
+    [self updateDataSourse];
+    [self reloadData];
+    [self selectTodayWhenInitIfNeed];
+}
+
+- (void)setMonthsDataSourse:(NSArray<NSDate *> *)monthsDataSourse {
+    _monthsDataSourse = [monthsDataSourse copy];
+    [self updateDataSourse];
+    [self reloadData];
+    [self selectTodayWhenInitIfNeed];
+}
+
 - (void)scrollToToday:(BOOL)animated {
     [self scrollToDate:self.currentMonth animated:animated];
+}
+
+- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated {
+    NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
+    if (monthInterval >= self.dates.count) {
+        monthInterval = 0;
+    }
+    
+    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:monthInterval];
+    
+    CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
+    [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
+    [self restoreSelection];
+    [self proxyScrollToMonth:date sectionIndexPath:sectionIndexPath];
+}
+
+- (void)selectDate:(NSDate *)date {
+    NSInteger day = [date lk_day];
+    NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
+    if (monthInterval >= self.dates.count) {
+        monthInterval = 0;
+    }
+    
+    NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
+    [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    
+    self.selectedDate = date;
+    [self proxyDidSelectDate:date];
 }
 
 - (void)reloadData {
@@ -150,7 +212,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.config.isPagingEnabled) {
+        if (self.isPagingEnabled) {
             if (scrollView.contentOffset.y < CGRectGetHeight(scrollView.bounds) * 2) {
                 [self appendPastMonths];
             }
@@ -163,7 +225,7 @@
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    if (self.config.isPagingEnabled) {
+    if (self.isPagingEnabled) {
         // 升序
         NSArray *sortedIndexPathsForVisibleItems = [[self.collectionView indexPathsForVisibleItems]  sortedArrayUsingComparator:^NSComparisonResult(NSIndexPath *obj1, NSIndexPath * obj2) {
             return obj1.section > obj2.section;
@@ -258,28 +320,8 @@
 }
 
 #pragma mark - private methods
-- (void)scrollToDate:(NSDate *)date animated:(BOOL)animated {
-    NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
-    NSIndexPath *sectionIndexPath = [NSIndexPath indexPathForItem:0 inSection:monthInterval];
-    
-    CGRect sectionFrame = [self.layout sectionFrameAtIndexPath:sectionIndexPath];
-    [self.collectionView setContentOffset:CGPointMake(0, sectionFrame.origin.y - self.collectionView.contentInset.top) animated:animated];
-    [self restoreSelection];
-    [self proxyScrollToMonth:date sectionIndexPath:sectionIndexPath];
-}
-
 - (void)selectToday {
     [self selectDate:self.currentMonth];
-}
-
-- (void)selectDate:(NSDate *)date {
-    NSInteger day = [date lk_day];
-    NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
-    NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
-    [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-    
-    self.selectedDate = date;
-    [self proxyDidSelectDate:date];
 }
 
 - (void)restoreSelection {
@@ -287,6 +329,10 @@
         NSDate *date = self.selectedDate;
         NSInteger day = [date lk_day];
         NSInteger monthInterval = [[self.dates.firstObject lk_firstDayOfMonth] lk_monthIntervalToDate:date];
+        if (monthInterval >= self.dates.count) {
+            monthInterval = 0;
+        }
+        
         NSIndexPath *selectIndexPath = [NSIndexPath indexPathForItem:day - 1 inSection:monthInterval];
         [self.collectionView selectItemAtIndexPath:selectIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     }

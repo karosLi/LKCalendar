@@ -18,7 +18,6 @@
     self.monthTextColor = [UIColor blackColor];
     self.dayTextColor = [UIColor blackColor];
     self.selectedDayBackgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
-    self.totalNumberOfyears = 2;
     
     return self;
 }
