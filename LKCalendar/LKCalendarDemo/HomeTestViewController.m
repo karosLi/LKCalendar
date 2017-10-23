@@ -18,7 +18,6 @@ typedef  NS_ENUM(NSInteger, TestType) {
     TestTypePageCalendar,
     TestTypePageCalendarDynamic,
     TestTypePageCalendarEvent,
-    TestTypePageCalendarSinglePage,
     TestTypePageCalendarSinglePageCustomStyle,
 };
 
@@ -42,8 +41,8 @@ static NSArray *testTypes;
                         @"desc" : @"日历分页并改变自身大小"},
                       @{@"type" : @(TestTypePageCalendarEvent),
                         @"desc" : @"日历分页并显示事件"},
-                      @{@"type" : @(TestTypePageCalendarSinglePage),
-                        @"desc" : @"日历单页并显示事件"}
+                      @{@"type" : @(TestTypePageCalendarSinglePageCustomStyle),
+                        @"desc" : @"日历单页并显示自定义事件"}
                       ];
     }
 }
@@ -88,7 +87,7 @@ static NSArray *testTypes;
         [self.navigationController pushViewController:[Demo3ViewController new] animated:YES];
     } else if (type == TestTypePageCalendarEvent) {
         [self.navigationController pushViewController:[Demo4ViewController new] animated:YES];
-    } else if (type == TestTypePageCalendarSinglePage) {
+    } else if (type == TestTypePageCalendarSinglePageCustomStyle) {
         [self.navigationController pushViewController:[Demo5ViewController new] animated:YES];
     }
 }

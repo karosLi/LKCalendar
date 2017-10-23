@@ -123,7 +123,14 @@
 - (UIView *)calendarViewEventView:(LKCalendarView *)calendarView forDate:(NSDate *)date {
     NSInteger day = [date lk_day];
     
-    if (day == 25) {
+    if (day == 10) {
+        EventView *eventView = [EventView new];
+        eventView.backgroundColor = [UIColor brownColor];
+        eventView.layer.borderWidth = 1;
+        eventView.layer.borderColor = [UIColor redColor].CGColor;
+        
+        return eventView;
+    } else if (day == 25) {
         EventView *eventView = [EventView new];
         eventView.dotView.layer.cornerRadius = 6.0 / 2.0;
         eventView.dotView.backgroundColor = [UIColor whiteColor];
