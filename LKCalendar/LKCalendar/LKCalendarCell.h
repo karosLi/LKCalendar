@@ -11,6 +11,7 @@
 @interface LKCalendarCell : UICollectionViewCell
 
 @property (nonatomic, strong, readonly) UILabel *textLabel;
+@property (nonatomic, strong) UIView *eventView;
 @property (nonatomic, assign) BOOL hasEvent;
 /**
  天文本颜色, 默认值为黑色

@@ -18,6 +18,9 @@
 - (void)calendarView:(LKCalendarView *)calendarView didSelectDate:(NSDate *)date;
 - (NSInteger)calendarView:(LKCalendarView *)calendarView numberOfEventsForDate:(NSDate *)date;
 
+// 自定义事件视图
+- (UIView *)calendarViewEventView:(LKCalendarView *)calendarView forDate:(NSDate *)date;
+
 @end
 
 @interface LKCalendarView : UIView

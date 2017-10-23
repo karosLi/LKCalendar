@@ -9,6 +9,42 @@
 #import "Demo5ViewController.h"
 #import "LKCalendar.h"
 
+@interface EventView : UIView
+
+@property (nonatomic, strong, readonly) UIView *dotView;
+
+@end
+
+@interface EventView()
+
+@property (nonatomic, strong) UIView *dotView;
+
+@end
+
+@implementation EventView
+
+- (instancetype)init {
+    self = [super init];
+    [self addSubview:self.dotView];
+    
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.dotView.frame = CGRectMake((CGRectGetWidth(self.bounds) - 6) / 2, CGRectGetHeight(self.bounds) - 6, 6, 6);
+}
+
+- (UIView *)dotView {
+    if (!_dotView) {
+        _dotView = [UIView new];
+    }
+    
+    return _dotView;
+}
+
+@end
+
 @interface Demo5ViewController () <LKCalendarViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) LKCalendarView *calendarView;
@@ -24,7 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"选中上个月21号";
+    self.title = @"选中上个月当天的后一天";
     self.view.backgroundColor = [UIColor colorWithRed:253.0 / 255.0 green:159.0 / 255.0 blue:17.0 / 255.0 alpha:1];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"今天" style:UIBarButtonItemStylePlain target:self action:@selector(onClickToday)];
@@ -82,6 +118,27 @@
     }
     
     return 0;
+}
+
+- (UIView *)calendarViewEventView:(LKCalendarView *)calendarView forDate:(NSDate *)date {
+    NSInteger day = [date lk_day];
+    
+    if (day == 25) {
+        EventView *eventView = [EventView new];
+        eventView.dotView.layer.cornerRadius = 6.0 / 2.0;
+        eventView.dotView.backgroundColor = [UIColor whiteColor];
+        
+        return eventView;
+    } else if (day == 27) {
+        EventView *eventView = [EventView new];
+        eventView.dotView.layer.cornerRadius = 6.0 / 2.0;
+        eventView.dotView.layer.borderWidth = 1;
+        eventView.dotView.layer.borderColor = [UIColor whiteColor].CGColor;
+        
+        return eventView;
+    }
+
+    return nil;
 }
 
 #pragma mark - UITableViewDataSource

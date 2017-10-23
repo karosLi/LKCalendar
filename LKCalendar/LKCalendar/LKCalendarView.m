@@ -189,16 +189,25 @@
         cell.textLabel.text = @"";
     } else {
         if ([NSDate lk_isDate:self.currentMonth inSameDayAsDate:dayDate]) {
+            cell.textLabel.font = [UIFont systemFontOfSize:12 weight:UIFontWeightBold];
             cell.textLabel.text = @"今天";
         } else {
+            cell.textLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightBold];
             cell.textLabel.text = [@([dayDate lk_day]) stringValue];
         }
     }
     
     cell.userInteractionEnabled = dayDate != nil;
-    cell.hasEvent = [self proxyNumberOfEvent:dayDate] > 0;
     cell.dayTextColor = isOutOfMonth ? self.config.dayOutOfMonthTextColor : self.config.dayTextColor;
     cell.selectedDayBackgroundColor = self.config.selectedDayBackgroundColor;
+    
+    UIView *eventView = [self proxyEventView:dayDate];
+    if (eventView) {
+        cell.eventView = eventView;
+    } else {
+        cell.hasEvent = [self proxyNumberOfEvent:dayDate] > 0;
+    }
+    
     [cell configureCell];
     
     return cell;
@@ -421,6 +430,14 @@
     }
     
     return 0;
+}
+
+- (UIView *)proxyEventView:(NSDate *)date {
+    if ([self.delegate respondsToSelector:@selector(calendarViewEventView:forDate:)]) {
+        return [self.delegate calendarViewEventView:self forDate:date];
+    }
+    
+    return nil;
 }
 
 #pragma mark - getter and setter

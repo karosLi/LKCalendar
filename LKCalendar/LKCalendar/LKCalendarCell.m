@@ -15,6 +15,7 @@
 @property (nonatomic, strong) CAShapeLayer *bgLayer;
 @property (nonatomic, strong) CAShapeLayer *eventLayer;
 @property (nonatomic, strong) UILabel *textLabel;
+@property (nonatomic, strong) UIView *eventContainerView;
 
 @end
 
@@ -32,6 +33,7 @@
 }
 
 - (void)setupView {
+    [self.contentView addSubview:self.eventContainerView];
     [self.contentView.layer addSublayer:self.bgLayer];
     [self.contentView addSubview:self.textLabel];
     [self.contentView.layer addSublayer:self.eventLayer];
@@ -40,8 +42,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.textLabel.frame = self.bounds;
-    self.bgLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 35) / 2, (CGRectGetHeight(self.bounds) - 35) / 2, 35, 35);
-    self.eventLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 5) / 2, CGRectGetHeight(self.bounds) - 5, 5, 5);
+    self.bgLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 30) / 2, (CGRectGetHeight(self.bounds) - 30) / 2, 30, 30);
+    self.eventLayer.frame = CGRectMake((CGRectGetWidth(self.bounds) - 5) / 2, CGRectGetMaxY(self.bgLayer.frame) - 2.5, 5, 5);
+    self.eventContainerView.frame = CGRectMake((CGRectGetWidth(self.bounds) - 34) / 2, (CGRectGetHeight(self.bounds) - 34) / 2, 34, 34);
+    self.eventView.frame = self.eventContainerView.bounds;
     
     CGPathRef path = [UIBezierPath bezierPathWithRoundedRect:self.bgLayer.bounds
                                                 cornerRadius:CGRectGetWidth(self.bgLayer.bounds) * 0.5].CGPath;
@@ -86,6 +90,14 @@
     self.textLabel.textColor = self.dayTextColor;
 }
 
+- (void)setEventView:(UIView *)eventView {
+    _eventView = eventView;
+    [self.eventContainerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    if (eventView) {
+        [self.eventContainerView addSubview:eventView];
+    }
+}
+
 #pragma mark - getter and setter
 - (UILabel *)textLabel {
     if (!_textLabel) {
@@ -116,6 +128,14 @@
     }
     
     return _eventLayer;
+}
+
+- (UIView *)eventContainerView {
+    if (!_eventContainerView) {
+        _eventContainerView = [UIView new];
+    }
+    
+    return _eventContainerView;
 }
 
 @end
