@@ -95,6 +95,7 @@
     [self.eventContainerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (eventView) {
         [self.eventContainerView addSubview:eventView];
+        [self setNeedsLayout];
     }
 }
 
