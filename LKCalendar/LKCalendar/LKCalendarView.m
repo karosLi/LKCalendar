@@ -201,6 +201,7 @@
     cell.dayTextColor = isOutOfMonth ? self.config.dayOutOfMonthTextColor : self.config.dayTextColor;
     cell.selectedDayBackgroundColor = self.config.selectedDayBackgroundColor;
     
+    cell.eventView = nil;
     UIView *eventView = [self proxyEventView:dayDate];
     if (eventView) {
         cell.eventView = eventView;
