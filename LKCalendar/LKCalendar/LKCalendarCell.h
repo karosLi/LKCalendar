@@ -19,6 +19,12 @@
 @property (nonatomic, copy) UIColor *dayTextColor;
 
 /**
+ 天文本字体, 默认值为 14 粗体
+ */
+@property (nonatomic, copy) UIFont *dayTextFont;
+
+
+/**
  天文本选中背景颜色, 默认值为10%不透明的黑色
  */
 @property (nonatomic, copy) UIColor *selectedDayBackgroundColor;
@@ -26,3 +32,4 @@
 - (void)configureCell;
 
 @end
+

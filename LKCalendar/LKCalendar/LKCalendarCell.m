@@ -52,9 +52,9 @@
     if (!CGPathEqualToPath(self.bgLayer.path, path)) {
         self.bgLayer.path = path;
     }
-
+    
     path = [UIBezierPath bezierPathWithRoundedRect:self.eventLayer.bounds
-                                                cornerRadius:CGRectGetWidth(self.eventLayer.bounds) * 0.5].CGPath;
+                                      cornerRadius:CGRectGetWidth(self.eventLayer.bounds) * 0.5].CGPath;
     if (!CGPathEqualToPath(self.eventLayer.path, path)) {
         self.eventLayer.path = path;
     }
@@ -88,6 +88,7 @@
     self.eventLayer.opacity = self.hasEvent;
     self.bgLayer.fillColor = self.selectedDayBackgroundColor.CGColor;
     self.textLabel.textColor = self.dayTextColor;
+    self.textLabel.font = self.dayTextFont;
 }
 
 - (void)setEventView:(UIView *)eventView {
@@ -140,3 +141,4 @@
 }
 
 @end
+

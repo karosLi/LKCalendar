@@ -199,6 +199,7 @@
     
     cell.userInteractionEnabled = dayDate != nil;
     cell.dayTextColor = isOutOfMonth ? self.config.dayOutOfMonthTextColor : self.config.dayTextColor;
+    cell.dayTextFont = self.config.dayTextFont;
     cell.selectedDayBackgroundColor = self.config.selectedDayBackgroundColor;
     
     cell.eventView = nil;
@@ -504,3 +505,4 @@
 }
 
 @end
+

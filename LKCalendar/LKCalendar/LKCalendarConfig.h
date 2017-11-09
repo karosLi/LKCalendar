@@ -36,6 +36,11 @@
 @property (nonatomic, copy) UIColor *dayTextColor;
 
 /**
+ 天文本字体, 默认值为 14 粗体
+ */
+@property (nonatomic, copy) UIFont *dayTextFont;
+
+/**
  超出当月的天文本颜色, 默认值为黑色
  */
 @property (nonatomic, copy) UIColor *dayOutOfMonthTextColor;
@@ -46,3 +51,4 @@
 @property (nonatomic, copy) UIColor *selectedDayBackgroundColor;
 
 @end
+
